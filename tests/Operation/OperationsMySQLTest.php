@@ -17,17 +17,17 @@ use PHPUnit\DbUnit\DataSet\FlatXmlDataSet;
 use PHPUnit\DbUnit\Operation\Truncate;
 use PHPUnit\DbUnit\TestCase;
 
-require_once \dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
 
 class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!\extension_loaded('pdo_mysql')) {
+        if (!extension_loaded('pdo_mysql')) {
             $this->markTestSkipped('pdo_mysql is required to run this test.');
         }
 
-        if (!\defined('PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN')) {
+        if (!defined('PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN')) {
             $this->markTestSkipped('No MySQL server configured for this test.');
         }
 
@@ -73,10 +73,10 @@ class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
             ),
         ]);
 
-        $this->assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
     }
 
-    public function getCompositeDataSet()
+    public function getCompositeDataSet(): CompositeDataSet
     {
         $compositeDataset = new CompositeDataSet();
 
@@ -112,6 +112,6 @@ class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
             ),
         ]);
 
-        $this->assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
     }
 }

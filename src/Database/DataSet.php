@@ -15,6 +15,10 @@ use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 use PHPUnit\DbUnit\InvalidArgumentException;
 use PHPUnit\DbUnit\RuntimeException;
+use function array_map;
+use function count;
+use function implode;
+use function in_array;
 
 /**
  * Provides access to a database instance as a data set.
@@ -39,12 +43,12 @@ class DataSet extends AbstractDataSet
      * Creates the query necessary to pull all of the data from a table.
      *
      * @param ITableMetadata $tableMetaData
-     *
+     * @param Connection|null $databaseConnection
      * @return string
      */
-    public static function buildTableSelect(ITableMetadata $tableMetaData, Connection $databaseConnection = null)
+    public static function buildTableSelect(ITableMetadata $tableMetaData, Connection $databaseConnection = null): string
     {
-        if ($tableMetaData->getTableName() == '') {
+        if ($tableMetaData->getTableName() === '') {
             $e = new RuntimeException('Empty Table Name');
             print $e->getTraceAsString();
 
@@ -54,9 +58,9 @@ class DataSet extends AbstractDataSet
         $columns = $tableMetaData->getColumns();
 
         if ($databaseConnection) {
-            $columns = \array_map([$databaseConnection, 'quoteSchemaObject'], $columns);
+            $columns = array_map([$databaseConnection, 'quoteSchemaObject'], $columns);
         }
-        $columnList = \implode(', ', $columns);
+        $columnList = implode(', ', $columns);
 
         if ($databaseConnection) {
             $tableName = $databaseConnection->quoteSchemaObject($tableMetaData->getTableName());
@@ -67,11 +71,11 @@ class DataSet extends AbstractDataSet
         $primaryKeys = $tableMetaData->getPrimaryKeys();
 
         if ($databaseConnection) {
-            $primaryKeys = \array_map([$databaseConnection, 'quoteSchemaObject'], $primaryKeys);
+            $primaryKeys = array_map([$databaseConnection, 'quoteSchemaObject'], $primaryKeys);
         }
 
-        if (\count($primaryKeys)) {
-            $orderBy = 'ORDER BY ' . \implode(' ASC, ', $primaryKeys) . ' ASC';
+        if (count($primaryKeys)) {
+            $orderBy = 'ORDER BY ' . implode(' ASC, ', $primaryKeys) . ' ASC';
         } else {
             $orderBy = '';
         }
@@ -98,7 +102,7 @@ class DataSet extends AbstractDataSet
      */
     public function getTable($tableName)
     {
-        if (!\in_array($tableName, $this->getTableNames())) {
+        if (!in_array($tableName, $this->getTableNames(), true)) {
             throw new InvalidArgumentException("$tableName is not a table in the current database.");
         }
 
@@ -118,7 +122,11 @@ class DataSet extends AbstractDataSet
      */
     public function getTableMetaData($tableName)
     {
-        return new DefaultTableMetadata($tableName, $this->databaseConnection->getMetaData()->getTableColumns($tableName), $this->databaseConnection->getMetaData()->getTablePrimaryKeys($tableName));
+        return new DefaultTableMetadata(
+            $tableName,
+            $this->databaseConnection->getMetaData()->getTableColumns($tableName),
+            $this->databaseConnection->getMetaData()->getTablePrimaryKeys($tableName)
+        );
     }
 
     /**
@@ -126,7 +134,7 @@ class DataSet extends AbstractDataSet
      *
      * @return array
      */
-    public function getTableNames()
+    public function getTableNames(): array
     {
         return $this->databaseConnection->getMetaData()->getTableNames();
     }
@@ -139,7 +147,7 @@ class DataSet extends AbstractDataSet
      *
      * @return TableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator($reverse = false): TableIterator
     {
         return new TableIterator($this->getTableNames(), $this, $reverse);
     }

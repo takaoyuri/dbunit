@@ -13,6 +13,7 @@ namespace PHPUnit\DbUnit\Constraint;
 use PHPUnit\DbUnit\DataSet\IDataSet;
 use PHPUnit\DbUnit\InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
+use function sprintf;
 
 /**
  * Asserts whether or not two dbunit datasets are equal.
@@ -36,7 +37,6 @@ class DataSetIsEqual extends Constraint
      */
     public function __construct(IDataSet $value)
     {
-        parent::__construct();
         $this->value = $value;
     }
 
@@ -47,9 +47,9 @@ class DataSetIsEqual extends Constraint
      */
     public function toString(): string
     {
-        return \sprintf(
+        return sprintf(
             'is equal to expected %s',
-            $this->value->__toString()
+            (string) $this->value
         );
     }
 
@@ -86,6 +86,6 @@ class DataSetIsEqual extends Constraint
      */
     protected function failureDescription($other): string
     {
-        return $other->__toString() . ' ' . $this->toString();
+        return $other . ' ' . $this->toString();
     }
 }

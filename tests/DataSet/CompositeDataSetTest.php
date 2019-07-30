@@ -141,12 +141,11 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
         $this->assertEquals(4, $compositeDataSet->getTable('table3')->getRowCount());
     }
 
-    /**
-     * @expectedException           InvalidArgumentException
-     * @expectedExceptionMessage    There is already a table named table3 with different table definition
-     */
     public function testExceptionOnIncompatibleTablesSameTableNames(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is already a table named table3 with different table definition');
+
         $inCompatibleTableMetaData = new DefaultTableMetadata(
             'table3',
             ['table3_id', 'column13', 'column14', 'column15', 'column16']
@@ -160,18 +159,17 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column16' => 2141
         ]);
 
-        $compositeDataSet = new CompositeDataSet([
+        new CompositeDataSet([
             $this->expectedDataSet2,
             new DefaultDataSet([$inCompatibleTable])
         ]);
     }
 
-    /**
-     * @expectedException           InvalidArgumentException
-     * @expectedExceptionMessage    There is already a table named table3 with different table definition
-     */
     public function testExceptionOnIncompatibleTablesSameTableNames2(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is already a table named table3 with different table definition');
+
         $inCompatibleTableMetaData = new DefaultTableMetadata(
             'table3',
             ['table3_id', 'column13', 'column14', 'column15', 'column16']
@@ -185,7 +183,7 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column16' => 2141
         ]);
 
-        $compositeDataSet = new CompositeDataSet([
+        new CompositeDataSet([
             new DefaultDataSet([$inCompatibleTable]),
             $this->expectedDataSet2
         ]);

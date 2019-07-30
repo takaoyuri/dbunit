@@ -13,6 +13,11 @@ namespace PHPUnit\DbUnit\Database;
 use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableIterator;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
+use function current;
+use function end;
+use function next;
+use function prev;
+use function reset;
 
 /**
  * Provides iterative access to tables from a database instance.
@@ -20,7 +25,7 @@ use PHPUnit\DbUnit\DataSet\ITableMetadata;
 class TableIterator implements ITableIterator
 {
     /**
-     * An array of tablenames.
+     * An array of table names.
      *
      * @var array
      */
@@ -77,7 +82,7 @@ class TableIterator implements ITableIterator
      */
     public function current()
     {
-        $tableName = \current($this->tableNames);
+        $tableName = current($this->tableNames);
 
         return $this->dataSet->getTable($tableName);
     }
@@ -87,7 +92,7 @@ class TableIterator implements ITableIterator
      *
      * @return string
      */
-    public function key()
+    public function key(): string
     {
         return $this->current()->getTableMetaData()->getTableName();
     }
@@ -98,9 +103,9 @@ class TableIterator implements ITableIterator
     public function next(): void
     {
         if ($this->reverse) {
-            \prev($this->tableNames);
+            prev($this->tableNames);
         } else {
-            \next($this->tableNames);
+            next($this->tableNames);
         }
     }
 
@@ -110,9 +115,9 @@ class TableIterator implements ITableIterator
     public function rewind(): void
     {
         if ($this->reverse) {
-            \end($this->tableNames);
+            end($this->tableNames);
         } else {
-            \reset($this->tableNames);
+            reset($this->tableNames);
         }
     }
 
@@ -121,8 +126,8 @@ class TableIterator implements ITableIterator
      *
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
-        return \current($this->tableNames) !== false;
+        return current($this->tableNames) !== false;
     }
 }

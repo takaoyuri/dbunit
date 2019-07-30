@@ -13,6 +13,7 @@ use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 use PHPUnit\DbUnit\DataSet\QueryTable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class Extensions_Database_DataSet_AbstractTableTest extends TestCase
@@ -48,7 +49,7 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
         $this->assertEquals($exists, $result);
     }
 
-    public function providerTableContainsRow()
+    public function providerTableContainsRow(): array
     {
         return [
             [['id' => 1, 'column1' => 'randomValue'], true],
@@ -64,12 +65,12 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
         $otherTable = $this->createMock(ITable::class);
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
 
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $table = new DefaultTable($tableMetaData);
         $this->assertFalse($table->matches($otherTable));
@@ -81,6 +82,7 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
         $otherMetaData = $this->createMock(ITableMetadata::class);
         $otherTable    = $this->createMock(ITable::class);
 
+        /** @var MockObject|DefaultTable $table */
         $table = $this->getMockBuilder(DefaultTable::class)
                       ->setConstructorArgs([$tableMetaData])
                       ->setMethods(['getRowCount'])
@@ -88,19 +90,20 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $table->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(1));
+            ->willReturn(1);
+
         $this->assertFalse($table->matches($otherTable));
     }
 
@@ -116,6 +119,7 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
         $otherMetaData = $this->createMock(ITableMetadata::class);
         $otherTable    = $this->createMock(ITable::class);
 
+        /** @var MockObject|DefaultTable $table */
         $table = $this->getMockBuilder(DefaultTable::class)
                       ->setConstructorArgs([$tableMetaData])
                       ->setMethods(['getRowCount', 'getValue'])
@@ -123,22 +127,22 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(\count($otherColumnValues)));
+            ->willReturn(count($otherColumnValues));
 
         $tableMetaData->expects($this->once())
             ->method('getColumns')
-            ->will($this->returnValue(\array_keys(\reset($tableColumnValues))));
+            ->willReturn(array_keys(reset($tableColumnValues)));
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $table->expects($this->any())
+        $table
             ->method('getRowCount')
-            ->will($this->returnValue(\count($tableColumnValues)));
+            ->willReturn(count($tableColumnValues));
 
         $tableMap = [];
         $otherMap = [];
@@ -149,17 +153,17 @@ class Extensions_Database_DataSet_AbstractTableTest extends TestCase
                 $otherMap[] = [$rowIndex, $columnName, $otherColumnValues[$rowIndex][$columnName]];
             }
         }
-        $table->expects($this->any())
+        $table
             ->method('getValue')
-            ->will($this->returnValueMap($tableMap));
-        $otherTable->expects($this->any())
+            ->willReturnMap($tableMap);
+        $otherTable
             ->method('getValue')
-            ->will($this->returnValueMap($otherMap));
+            ->willReturnMap($otherMap);
 
         $this->assertSame($matches, $table->matches($otherTable));
     }
 
-    public function providerMatchesWithColumnValueComparisons()
+    public function providerMatchesWithColumnValueComparisons(): array
     {
         return [
 

@@ -21,7 +21,7 @@ class Extensions_Database_DataSet_QueryTableTest extends TestCase
      */
     protected $table;
 
-    public static function providerTestGetValue()
+    public static function providerTestGetValue(): array
     {
         return [
             [0, 'col1', 'value1'],

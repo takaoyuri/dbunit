@@ -14,6 +14,7 @@ use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 use PHPUnit\DbUnit\DataSet\ReplacementTable;
 use PHPUnit\DbUnit\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framework\TestCase
 {
@@ -230,16 +231,16 @@ class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framewor
 
         $table->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($tableMetaData));
+            ->willReturn($tableMetaData);
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
 
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $replacementTable = new ReplacementTable($table);
         $this->assertFalse($replacementTable->matches($otherTable));
@@ -252,6 +253,7 @@ class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framewor
         $table         = $this->createMock(ITable::class);
         $otherTable    = $this->createMock(ITable::class);
 
+        /** @var MockObject|ReplacementTable $replacementTable */
         $replacementTable = $this->getMockBuilder(ReplacementTable::class)
                                  ->setConstructorArgs([$table])
                                  ->setMethods(['getRowCount'])
@@ -259,23 +261,24 @@ class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framewor
 
         $table->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($tableMetaData));
+            ->willReturn($tableMetaData);
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(0));
+            ->willReturn(0);
 
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $replacementTable->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(1));
+            ->willReturn(1);
+
         $this->assertFalse($replacementTable->matches($otherTable));
     }
 
@@ -294,31 +297,32 @@ class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framewor
 
         $table->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($tableMetaData));
+            ->willReturn($tableMetaData);
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
-            ->will($this->returnValue($otherMetaData));
+            ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->will($this->returnValue(\count($otherColumnValues)));
+            ->willReturn(count($otherColumnValues));
 
         $tableMetaData->expects($this->once())
             ->method('getColumns')
-            ->will($this->returnValue(\array_keys(\reset($tableColumnValues))));
+            ->willReturn(array_keys(reset($tableColumnValues)));
         $tableMetaData->expects($this->once())
             ->method('matches')
             ->with($otherMetaData)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
+        /** @var MockObject|ReplacementTable $replacementTable */
         $replacementTable = $this->getMockBuilder(ReplacementTable::class)
                                  ->setConstructorArgs([$table])
                                  ->setMethods(['getRowCount', 'getValue'])
                                  ->getMock();
 
-        $replacementTable->expects($this->any())
+        $replacementTable
             ->method('getRowCount')
-            ->will($this->returnValue(\count($tableColumnValues)));
+            ->willReturn(count($tableColumnValues));
 
         $tableMap = [];
         $otherMap = [];
@@ -329,17 +333,17 @@ class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framewor
                 $otherMap[] = [$rowIndex, $columnName, $otherColumnValues[$rowIndex][$columnName]];
             }
         }
-        $replacementTable->expects($this->any())
+        $replacementTable
             ->method('getValue')
-            ->will($this->returnValueMap($tableMap));
-        $otherTable->expects($this->any())
+            ->willReturnMap($tableMap);
+        $otherTable
             ->method('getValue')
-            ->will($this->returnValueMap($otherMap));
+            ->willReturnMap($otherMap);
 
         $this->assertSame($matches, $replacementTable->matches($otherTable));
     }
 
-    public function providerMatchesWithColumnValueComparisons()
+    public function providerMatchesWithColumnValueComparisons(): array
     {
         return [
 

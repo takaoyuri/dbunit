@@ -11,6 +11,7 @@
 namespace PHPUnit\DbUnit\DataSet;
 
 use PHPUnit\DbUnit\InvalidArgumentException;
+use function in_array;
 
 /**
  * Creates Composite Datasets
@@ -26,9 +27,7 @@ class CompositeDataSet extends AbstractDataSet
      *
      * You can pass in any data set that implements PHPUnit_Extensions_Database_DataSet_IDataSet
      *
-     * @param string $delimiter
-     * @param string $enclosure
-     * @param string $escape
+     * @param array $dataSets
      */
     public function __construct(array $dataSets = [])
     {
@@ -49,7 +48,7 @@ class CompositeDataSet extends AbstractDataSet
     public function addDataSet(IDataSet $dataSet): void
     {
         foreach ($dataSet->getTableNames() as $tableName) {
-            if (!\in_array($tableName, $this->getTableNames())) {
+            if (!in_array($tableName, $this->getTableNames(), true)) {
                 $this->motherDataSet->addTable($dataSet->getTable($tableName));
             } else {
                 $other = $dataSet->getTable($tableName);

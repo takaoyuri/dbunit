@@ -1,39 +1,41 @@
 {
-    "name": "phpunit/dbunit",
-    "description": "PHPUnit extension for database interaction testing",
+    "name": "misantron/dbunit",
+    "description": "DbUnit fork for PHPUnit 8",
     "type": "library",
     "keywords": [
         "database",
         "testing",
-        "xunit"
+        "dbunit"
     ],
-    "homepage": "https://github.com/sebastianbergmann/dbunit/",
-    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/misantron/dbunit/",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Sebastian Bergmann",
-            "email": "sebastian@phpunit.de",
-            "role": "lead"
+            "name": "Aleksandr Ivanov",
+            "email": "misantron@gmail.com",
+            "role": "developer"
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/dbunit/issues"
+        "issues": "https://github.com/misantron/dbunit/issues"
     },
     "require": {
-        "php": "^7.1",
-        "phpunit/phpunit": "^7.0",
-        "symfony/yaml": "^3.0 || ^4.0",
+        "php": "^7.2",
         "ext-pdo": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "phpunit/phpunit": "^8.2",
+        "symfony/yaml": "^4.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15"
     },
     "autoload": {
         "classmap": [
             "src/"
         ]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.0-dev"
-        }
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }

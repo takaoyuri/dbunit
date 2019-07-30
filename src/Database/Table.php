@@ -29,7 +29,9 @@ class Table extends AbstractTable
     {
         $this->setTableMetaData($tableMetaData);
 
-        $pdoStatement = $databaseConnection->getConnection()->prepare(DataSet::buildTableSelect($tableMetaData, $databaseConnection));
+        $pdoStatement = $databaseConnection
+            ->getConnection()
+            ->prepare(DataSet::buildTableSelect($tableMetaData, $databaseConnection));
         $pdoStatement->execute();
         $this->data = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
     }
