@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.0/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.2/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          verbose="true">
-    <testsuite>
-        <directory suffix="Test.php">tests/Constraint</directory>
-        <directory suffix="Test.php">tests/DataSet</directory>
-        <directory suffix="Test.php">tests/Operation</directory>
-        <directory suffix="Test.php">tests/DB</directory>
+    <testsuite name="all">
+        <directory>tests/Constraint</directory>
+        <directory>tests/DataSet</directory>
+        <directory>tests/Operation</directory>
+        <directory>tests/DB</directory>
     </testsuite>
 
     <php>
