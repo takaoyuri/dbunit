@@ -22,7 +22,7 @@ abstract class AbstractDataSet implements IDataSet
         $dataSetString = '';
 
         foreach ($iterator as $table) {
-            $dataSetString .= $table->__toString();
+            $dataSetString .= $table;
         }
 
         return $dataSetString;

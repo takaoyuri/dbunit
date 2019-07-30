@@ -60,7 +60,7 @@ class DefaultConnection implements Connection
      *
      * @return Metadata
      */
-    public function getMetaData()
+    public function getMetaData(): Metadata
     {
         return $this->metaData;
     }
@@ -70,7 +70,7 @@ class DefaultConnection implements Connection
      *
      * @return string
      */
-    public function getSchema()
+    public function getSchema(): string
     {
         return $this->getMetaData()->getSchema();
     }
@@ -101,7 +101,7 @@ class DefaultConnection implements Connection
      * @param string $resultName
      * @param string $sql
      *
-     * @return Table
+     * @return QueryTable
      */
     public function createQueryTable($resultName, $sql)
     {
@@ -120,7 +120,7 @@ class DefaultConnection implements Connection
      *
      * @return PDO
      */
-    public function getConnection()
+    public function getConnection(): PDO
     {
         return $this->connection;
     }
@@ -134,7 +134,7 @@ class DefaultConnection implements Connection
      *
      * @return int
      */
-    public function getRowCount($tableName, $whereClause = null)
+    public function getRowCount($tableName, $whereClause = null): int
     {
         $query = 'SELECT COUNT(*) FROM ' . $this->quoteSchemaObject($tableName);
 
@@ -152,7 +152,7 @@ class DefaultConnection implements Connection
      *
      * @return string
      */
-    public function quoteSchemaObject($object)
+    public function quoteSchemaObject($object): string
     {
         return $this->getMetaData()->quoteSchemaObject($object);
     }
@@ -162,7 +162,7 @@ class DefaultConnection implements Connection
      *
      * @return string
      */
-    public function getTruncateCommand()
+    public function getTruncateCommand(): string
     {
         return $this->getMetaData()->getTruncateCommand();
     }
@@ -172,7 +172,7 @@ class DefaultConnection implements Connection
      *
      * @return bool
      */
-    public function allowsCascading()
+    public function allowsCascading(): bool
     {
         return $this->getMetaData()->allowsCascading();
     }
@@ -182,7 +182,7 @@ class DefaultConnection implements Connection
      *
      * @param string $tableName
      */
-    public function disablePrimaryKeys($tableName): void
+    public function disablePrimaryKeys(string $tableName): void
     {
         $this->getMetaData()->disablePrimaryKeys($tableName);
     }
@@ -192,7 +192,7 @@ class DefaultConnection implements Connection
      *
      * @param string $tableName
      */
-    public function enablePrimaryKeys($tableName): void
+    public function enablePrimaryKeys(string $tableName): void
     {
         $this->getMetaData()->enablePrimaryKeys($tableName);
     }

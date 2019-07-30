@@ -51,7 +51,7 @@ interface Connection
      *
      * @return PDO
      */
-    public function getConnection();
+    public function getConnection(): PDO;
 
     /**
      * Returns a database metadata object that can be used to retrieve table
@@ -59,7 +59,7 @@ interface Connection
      *
      * @return Metadata
      */
-    public function getMetaData();
+    public function getMetaData(): Metadata;
 
     /**
      * Returns the number of rows in the given table. You can specify an
@@ -67,16 +67,16 @@ interface Connection
      *
      * @param string $tableName
      * @param string $whereClause
-     * @param int
+     * @return int
      */
-    public function getRowCount($tableName, $whereClause = null);
+    public function getRowCount(string $tableName, $whereClause = null): int;
 
     /**
      * Returns the schema for the connection.
      *
      * @return string
      */
-    public function getSchema();
+    public function getSchema(): string;
 
     /**
      * Returns a quoted schema object. (table name, column name, etc)
@@ -85,33 +85,33 @@ interface Connection
      *
      * @return string
      */
-    public function quoteSchemaObject($object);
+    public function quoteSchemaObject($object): string;
 
     /**
      * Returns the command used to truncate a table.
      *
      * @return string
      */
-    public function getTruncateCommand();
+    public function getTruncateCommand(): string;
 
     /**
      * Returns true if the connection allows cascading
      *
      * @return bool
      */
-    public function allowsCascading();
+    public function allowsCascading(): bool;
 
     /**
      * Disables primary keys if connection does not allow setting them otherwise
      *
      * @param string $tableName
      */
-    public function disablePrimaryKeys($tableName);
+    public function disablePrimaryKeys(string $tableName): void;
 
     /**
      * Reenables primary keys after they have been disabled
      *
      * @param string $tableName
      */
-    public function enablePrimaryKeys($tableName);
+    public function enablePrimaryKeys(string$tableName): void;
 }
