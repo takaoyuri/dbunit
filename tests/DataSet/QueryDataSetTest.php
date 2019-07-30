@@ -18,7 +18,7 @@ use PHPUnit\DbUnit\TestCase;
 class Extensions_Database_DataSet_QueryDataSetTest extends TestCase
 {
     /**
-     * @var QueryDataSet
+     * @var ITable[]
      */
     protected $dataSet;
 
@@ -49,8 +49,8 @@ class Extensions_Database_DataSet_QueryDataSetTest extends TestCase
 
         $expectedTable2->addRow(['tc1' => 'bar', 'tc2' => 'blah']);
 
-        $this->assertTablesEqual($expectedTable1, $this->dataSet->getTable('table1'));
-        $this->assertTablesEqual($expectedTable2, $this->dataSet->getTable('query1'));
+        self::assertTablesEqual($expectedTable1, $this->dataSet->getTable('table1'));
+        self::assertTablesEqual($expectedTable2, $this->dataSet->getTable('query1'));
     }
 
     public function testGetTableNames(): void
@@ -69,15 +69,12 @@ class Extensions_Database_DataSet_QueryDataSetTest extends TestCase
         $expectedTable2->addRow(['tc1' => 'bar', 'tc2' => 'blah']);
 
         foreach ($this->dataSet as $i => $table) {
-            /* @var $table ITable */
             switch ($table->getTableMetaData()->getTableName()) {
                 case 'table1':
-                    $this->assertTablesEqual($expectedTable1, $table);
-
+                    self::assertTablesEqual($expectedTable1, $table);
                     break;
                 case 'query1':
-                    $this->assertTablesEqual($expectedTable2, $table);
-
+                    self::assertTablesEqual($expectedTable2, $table);
                     break;
                 default:
                     $this->fail('Proper keys not present from the iterator');
@@ -88,7 +85,7 @@ class Extensions_Database_DataSet_QueryDataSetTest extends TestCase
     /**
      * @return DefaultConnection
      */
-    protected function getConnection()
+    protected function getConnection(): DefaultConnection
     {
         return $this->createDefaultDBConnection($this->pdo, 'test');
     }

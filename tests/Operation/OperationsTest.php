@@ -21,13 +21,13 @@ use PHPUnit\DbUnit\Operation\Truncate;
 use PHPUnit\DbUnit\Operation\Update;
 use PHPUnit\DbUnit\TestCase;
 
-require_once \dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
 
 class Extensions_Database_Operation_OperationsTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!\extension_loaded('pdo_sqlite')) {
+        if (!extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('PDO/SQLite is required to run this test.');
         }
 
@@ -50,7 +50,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $deleteOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteOperationTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteOperationResult.xml'), $this->getConnection()->createDataSet());
     }
 
     public function testDeleteAll(): void
@@ -80,7 +80,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
             ),
         ]);
 
-        $this->assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
     }
 
     public function testTruncate(): void
@@ -110,7 +110,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
             ),
         ]);
 
-        $this->assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual($expectedDataSet, $this->getConnection()->createDataSet());
     }
 
     public function testInsert(): void
@@ -119,7 +119,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/InsertOperationTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/InsertOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/InsertOperationResult.xml'), $this->getConnection()->createDataSet());
     }
 
     public function testUpdate(): void
@@ -128,7 +128,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $updateOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/UpdateOperationTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/UpdateOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/UpdateOperationResult.xml'), $this->getConnection()->createDataSet());
     }
 
     public function testReplace(): void
@@ -137,7 +137,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $replaceOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/ReplaceOperationTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/ReplaceOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/ReplaceOperationResult.xml'), $this->getConnection()->createDataSet());
     }
 
     public function testInsertEmptyTable(): void
@@ -146,7 +146,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/EmptyTableInsertTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/EmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/EmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
     }
 
     public function testInsertAllEmptyTables(): void
@@ -155,6 +155,6 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
         $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/AllEmptyTableInsertTest.xml'));
 
-        $this->assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/AllEmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/AllEmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
     }
 }

@@ -24,7 +24,7 @@ class DefaultDatabaseConnectionTest extends TestCase
     public function testRowCountForEmptyTableReturnsZero(): void
     {
         $conn = new DefaultConnection($this->db);
-        $this->assertEquals(0, $conn->getRowCount('test'));
+        $this->assertSame(0, $conn->getRowCount('test'));
     }
 
     public function testRowCountForTableWithTwoRowsReturnsTwo(): void
@@ -33,6 +33,6 @@ class DefaultDatabaseConnectionTest extends TestCase
         $this->db->exec('INSERT INTO test (field1) VALUES (\'foobarbaz\')');
 
         $conn = new DefaultConnection($this->db);
-        $this->assertEquals(2, $conn->getRowCount('test'));
+        $this->assertSame(2, $conn->getRowCount('test'));
     }
 }
