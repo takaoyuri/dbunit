@@ -26,7 +26,10 @@ install:
   - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest; fi
 
 script:
-  - ./vendor/bin/phpunit --configuration phpunit-travis.xml
+  - ./vendor/bin/phpunit -c phpunit-travis.xml
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
 
 notifications:
   email: false
