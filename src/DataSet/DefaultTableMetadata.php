@@ -11,6 +11,7 @@
 namespace PHPUnit\DbUnit\DataSet;
 
 use PHPUnit\DbUnit\InvalidArgumentException;
+use function in_array;
 
 /**
  * The default implementation of table meta data
@@ -31,7 +32,7 @@ class DefaultTableMetadata extends AbstractTableMetadata
         $this->primaryKeys = [];
 
         foreach ($primaryKeys as $columnName) {
-            if (!\in_array($columnName, $this->columns)) {
+            if (!in_array($columnName, $this->columns, true)) {
                 throw new InvalidArgumentException('Primary key column passed that is not in the column list.');
             }
             $this->primaryKeys[] = $columnName;

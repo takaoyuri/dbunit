@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITable;
@@ -16,7 +18,7 @@ use PHPUnit\DbUnit\DataSet\QueryTable;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class Extensions_Database_DataSet_AbstractTableTest extends TestCase
+class AbstractTableTest extends TestCase
 {
     /**
      * @var QueryTable

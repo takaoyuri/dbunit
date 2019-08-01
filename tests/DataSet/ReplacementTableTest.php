@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITable;
@@ -16,7 +18,7 @@ use PHPUnit\DbUnit\DataSet\ReplacementTable;
 use PHPUnit\DbUnit\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class Extensions_Database_DataSet_ReplacementTableTest extends \PHPUnit\Framework\TestCase
+class ReplacementTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DefaultTable

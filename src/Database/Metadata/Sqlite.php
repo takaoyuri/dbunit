@@ -11,7 +11,6 @@
 namespace PHPUnit\DbUnit\Database\Metadata;
 
 use PDO;
-use PDOStatement;
 
 /**
  * Provides functionality to retrieve meta data from an Sqlite database.
@@ -44,7 +43,7 @@ class Sqlite extends AbstractMetadata
 
         $tableNames = [];
 
-        while ($tableName = $result->fetchColumn(0)) {
+        while ($tableName = $result->fetchColumn()) {
             $tableNames[] = $tableName;
         }
 
@@ -95,7 +94,6 @@ class Sqlite extends AbstractMetadata
         $query     = "PRAGMA table_info('{$tableName}')";
         $statement = $this->pdo->query($query);
 
-        /* @var $statement PDOStatement */
         $this->columns[$tableName] = [];
         $this->keys[$tableName]    = [];
 

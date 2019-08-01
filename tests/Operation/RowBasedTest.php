@@ -8,6 +8,13 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\Operation;
+
+use ArrayIterator;
+use DatabaseTestUtility;
+use Exception;
+use PDO;
+use PDOStatement;
 use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\Database\DefaultConnection;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
@@ -20,9 +27,7 @@ use PHPUnit\DbUnit\Operation\Exception as OperationException;
 use PHPUnit\DbUnit\Operation\RowBased;
 use PHPUnit\DbUnit\TestCase;
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
-
-class Extensions_Database_Operation_RowBasedTest extends TestCase
+class RowBasedTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -35,7 +40,7 @@ class Extensions_Database_Operation_RowBasedTest extends TestCase
 
     public function getConnection()
     {
-        return new DefaultConnection(DBUnitTestUtility::getSQLiteMemoryDB(), 'sqlite');
+        return new DefaultConnection(DatabaseTestUtility::getSQLiteMemoryDB(), 'sqlite');
     }
 
     public function getDataSet()

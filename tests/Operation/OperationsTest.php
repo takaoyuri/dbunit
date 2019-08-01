@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\Operation;
+
+use DatabaseTestUtility;
 use PHPUnit\DbUnit\Database\DefaultConnection;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
@@ -21,9 +24,7 @@ use PHPUnit\DbUnit\Operation\Truncate;
 use PHPUnit\DbUnit\Operation\Update;
 use PHPUnit\DbUnit\TestCase;
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
-
-class Extensions_Database_Operation_OperationsTest extends TestCase
+class OperationsTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -36,7 +37,7 @@ class Extensions_Database_Operation_OperationsTest extends TestCase
 
     public function getConnection()
     {
-        return new DefaultConnection(DBUnitTestUtility::getSQLiteMemoryDB(), 'sqlite');
+        return new DefaultConnection(DatabaseTestUtility::getSQLiteMemoryDB(), 'sqlite');
     }
 
     public function getDataSet()

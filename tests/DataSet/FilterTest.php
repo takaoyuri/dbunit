@@ -8,12 +8,14 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
 use PHPUnit\DbUnit\Constraint\DataSetIsEqual;
 use PHPUnit\DbUnit\DataSet\Filter;
 use PHPUnit\DbUnit\DataSet\FlatXmlDataSet;
 use PHPUnit\Framework\TestCase;
 
-class Extensions_Database_DataSet_FilterTest extends TestCase
+class FilterTest extends TestCase
 {
     protected $expectedDataSet;
 

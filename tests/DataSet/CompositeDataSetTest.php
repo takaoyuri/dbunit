@@ -8,13 +8,16 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
+use InvalidArgumentException;
 use PHPUnit\DbUnit\DataSet\CompositeDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\TestCase;
 
-class Extensions_Database_DataSet_CompositeDataSetTest extends \PHPUnit\Framework\TestCase
+class CompositeDataSetTest extends \PHPUnit\Framework\TestCase
 {
     protected $expectedDataSet1;
     protected $expectedDataSet2;

@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
 use PHPUnit\DbUnit\Constraint\DataSetIsEqual;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
@@ -17,7 +19,7 @@ use PHPUnit\DbUnit\DataSet\MysqlXmlDataSet;
 use PHPUnit\DbUnit\DataSet\XmlDataSet;
 use PHPUnit\Framework\TestCase;
 
-class Extensions_Database_DataSet_XmlDataSetsTest extends TestCase
+class XmlDataSetsTest extends TestCase
 {
     protected $expectedDataSet;
 

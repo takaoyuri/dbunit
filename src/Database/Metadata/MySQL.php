@@ -32,7 +32,7 @@ class MySQL extends AbstractMetadata
 
         $tableNames = [];
 
-        while (($tableName = $statement->fetchColumn(0))) {
+        while ($tableName = $statement->fetchColumn()) {
             $tableNames[] = $tableName;
         }
 
@@ -55,7 +55,7 @@ class MySQL extends AbstractMetadata
 
         $columnNames = [];
 
-        while (($columnName = $statement->fetchColumn(0))) {
+        while ($columnName = $statement->fetchColumn()) {
             $columnNames[] = $columnName;
         }
 
@@ -79,8 +79,8 @@ class MySQL extends AbstractMetadata
 
         $columnNames = [];
 
-        while (($column = $statement->fetch())) {
-            if ($column['Key_name'] == 'PRIMARY') {
+        while ($column = $statement->fetch()) {
+            if ($column['Key_name'] === 'PRIMARY') {
                 $columnNames[] = $column['Column_name'];
             }
         }
