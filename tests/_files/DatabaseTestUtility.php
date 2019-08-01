@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-class DBUnitTestUtility
+class DatabaseTestUtility
 {
     protected static $connection;
     protected static $mySQLConnection;
@@ -31,7 +31,7 @@ class DBUnitTestUtility
      *
      * @return PDO
      *
-     * @see    DBUnitTestUtility::setUpMySqlDatabase()
+     * @see    DatabaseTestUtility::setUpMySqlDatabase()
      */
     public static function getMySQLDB()
     {
@@ -82,12 +82,12 @@ class DBUnitTestUtility
     /**
      * Creates default testing schema for MySQL database
      *
-     * Tables must containt foreign keys and use InnoDb storage engine
+     * Tables must contain foreign keys and use InnoDb storage engine
      * for constraint tests to be executed properly
      *
      * @param PDO $connection PDO instance representing connection to MySQL database
      *
-     * @see   DBUnitTestUtility::getMySQLDB()
+     * @see   DatabaseTestUtility::getMySQLDB()
      */
     protected static function setUpMySqlDatabase(PDO $connection): void
     {

@@ -35,6 +35,14 @@
             "src/"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPUnit\\DbUnit\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/_files/DatabaseTestUtility.php"
+        ]
+    },
     "config": {
         "sort-packages": true,
         "optimize-autoloader": true

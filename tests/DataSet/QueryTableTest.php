@@ -8,13 +8,16 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
+use PDO;
 use PHPUnit\DbUnit\Database\DefaultConnection;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\QueryTable;
 use PHPUnit\Framework\TestCase;
 
-class Extensions_Database_DataSet_QueryTableTest extends TestCase
+class QueryTableTest extends TestCase
 {
     /**
      * @var QueryTable

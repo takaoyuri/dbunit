@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\Operation;
+
+use DatabaseTestUtility;
 use PHPUnit\DbUnit\Database\DefaultConnection;
 use PHPUnit\DbUnit\DataSet\CompositeDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
@@ -17,9 +20,7 @@ use PHPUnit\DbUnit\DataSet\FlatXmlDataSet;
 use PHPUnit\DbUnit\Operation\Truncate;
 use PHPUnit\DbUnit\TestCase;
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'DatabaseTestUtility.php';
-
-class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
+class OperationsMySQLTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -36,7 +37,7 @@ class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
 
     public function getConnection()
     {
-        return new DefaultConnection(DBUnitTestUtility::getMySQLDB(), 'mysql');
+        return new DefaultConnection(DatabaseTestUtility::getMySQLDB(), 'mysql');
     }
 
     public function getDataSet()

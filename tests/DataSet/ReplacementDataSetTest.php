@@ -8,13 +8,15 @@
  * file that was distributed with this source code.
  */
 
+namespace PHPUnit\DbUnit\Tests\DataSet;
+
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ReplacementDataSet;
 use PHPUnit\DbUnit\TestCase;
 
-class Extensions_Database_DataSet_ReplacementDataSetTest extends \PHPUnit\Framework\TestCase
+class ReplacementDataSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DefaultDataSet
