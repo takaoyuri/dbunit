@@ -45,7 +45,7 @@ class Extensions_Database_Operation_OperationsMySQLTest extends TestCase
     }
 
     /**
-     * @covers Truncate::execute
+     * @covers \PHPUnit\DbUnit\Operation\Truncate::execute
      */
     public function testTruncate(): void
     {
