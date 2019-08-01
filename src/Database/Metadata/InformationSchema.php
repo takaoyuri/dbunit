@@ -41,7 +41,7 @@ class InformationSchema extends AbstractMetadata
 
         $tableNames = [];
 
-        while ($tableName = $statement->fetchColumn(0)) {
+        while ($tableName = $statement->fetchColumn()) {
             $tableNames[] = $tableName;
         }
 
@@ -105,8 +105,8 @@ class InformationSchema extends AbstractMetadata
         $columnStatement = $this->pdo->prepare($columnQuery);
         $columnStatement->execute([$tableName, $this->getSchema()]);
 
-        while ($columName = $columnStatement->fetchColumn(0)) {
-            $this->columns[$tableName][] = $columName;
+        while ($columnName = $columnStatement->fetchColumn()) {
+            $this->columns[$tableName][] = $columnName;
         }
 
         $keyQuery = "
@@ -129,8 +129,8 @@ class InformationSchema extends AbstractMetadata
         $keyStatement = $this->pdo->prepare($keyQuery);
         $keyStatement->execute([$tableName, $this->getSchema()]);
 
-        while ($columName = $keyStatement->fetchColumn(0)) {
-            $this->keys[$tableName][] = $columName;
+        while ($columnName = $keyStatement->fetchColumn()) {
+            $this->keys[$tableName][] = $columnName;
         }
     }
 }

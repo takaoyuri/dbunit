@@ -11,7 +11,7 @@
 namespace PHPUnit\DbUnit\Database\Metadata;
 
 /**
- * Provides a basic interface for retreiving metadata from a database.
+ * Provides a basic interface for retrieving metadata from a database.
  */
 interface Metadata
 {
