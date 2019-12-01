@@ -45,9 +45,6 @@ class OperationsMySQLTest extends TestCase
         return new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/OperationsMySQLTestFixture.xml');
     }
 
-    /**
-     * @covers \PHPUnit\DbUnit\Operation\Truncate::execute
-     */
     public function testTruncate(): void
     {
         $truncateOperation = new Truncate();
