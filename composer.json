@@ -23,12 +23,12 @@
         "php": "^7.2",
         "ext-pdo": "*",
         "ext-simplexml": "*",
-        "phpunit/phpunit": "^8.2",
-        "symfony/yaml": "^4.0"
+        "phpunit/phpunit": "^8.4",
+        "symfony/yaml": "^4.4|^5.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.15",
-        "php-coveralls/php-coveralls": "^2.1"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "php-coveralls/php-coveralls": "^2.2"
     },
     "autoload": {
         "classmap": [
@@ -44,7 +44,6 @@
         ]
     },
     "config": {
-        "sort-packages": true,
-        "optimize-autoloader": true
+        "sort-packages": true
     }
 }
