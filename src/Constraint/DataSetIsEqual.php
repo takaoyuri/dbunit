@@ -11,9 +11,8 @@
 namespace PHPUnit\DbUnit\Constraint;
 
 use PHPUnit\DbUnit\DataSet\IDataSet;
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
-use function sprintf;
 
 /**
  * Asserts whether or not two dbunit datasets are equal.
@@ -26,13 +25,6 @@ class DataSetIsEqual extends Constraint
     protected $value;
 
     /**
-     * @var string
-     */
-    protected $failure_reason;
-
-    /**
-     * Creates a new constraint.
-     *
      * @param IDataSet $value
      */
     public function __construct(IDataSet $value)
@@ -47,7 +39,7 @@ class DataSetIsEqual extends Constraint
      */
     public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'is equal to expected %s',
             (string) $this->value
         );
@@ -59,16 +51,14 @@ class DataSetIsEqual extends Constraint
      *
      * This method can be overridden to implement the evaluation algorithm.
      *
-     * @param mixed $other value or object to evaluate
+     * @param IDataSet $other value or object to evaluate
      *
      * @return bool
      */
     protected function matches($other): bool
     {
         if (!$other instanceof IDataSet) {
-            throw new InvalidArgumentException(
-                'PHPUnit_Extensions_Database_DataSet_IDataSet expected'
-            );
+            throw new InvalidArgumentException('Only dataset instance can be matched');
         }
 
         return $this->value->matches($other);

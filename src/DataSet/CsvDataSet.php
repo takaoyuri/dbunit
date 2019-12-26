@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Creates CsvDataSets.
@@ -52,7 +52,7 @@ class CsvDataSet extends AbstractDataSet
     {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
-        $this->escape    = $escape;
+        $this->escape = $escape;
     }
 
     /**
@@ -74,8 +74,8 @@ class CsvDataSet extends AbstractDataSet
             throw new InvalidArgumentException("Could not read csv file: {$csvFile}");
         }
 
-        $fh           = \fopen($csvFile, 'r');
-        $columns      = $this->getCsvRow($fh);
+        $fh = \fopen($csvFile, 'rb');
+        $columns = $this->getCsvRow($fh);
         $columnsCount = \count($columns);
 
         if ($columns === false) {
@@ -83,7 +83,7 @@ class CsvDataSet extends AbstractDataSet
         }
 
         $metaData = new DefaultTableMetadata($tableName, $columns);
-        $table    = new DefaultTable($metaData);
+        $table = new DefaultTable($metaData);
 
         $rowNumber = 1;
 
@@ -106,7 +106,7 @@ class CsvDataSet extends AbstractDataSet
      *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         return new DefaultTableIterator($this->tables, $reverse);
     }
@@ -116,11 +116,11 @@ class CsvDataSet extends AbstractDataSet
      *
      * @param resource $fh
      *
-     * @return array
+     * @return array|false
      */
     protected function getCsvRow($fh)
     {
-        if (\version_compare(PHP_VERSION, '5.3.0', '>')) {
+        if (PHP_VERSION_ID > 50300) {
             return \fgetcsv($fh, null, $this->delimiter, $this->enclosure, $this->escape);
         }
 

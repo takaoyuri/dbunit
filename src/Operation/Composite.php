@@ -17,29 +17,28 @@ use PHPUnit\DbUnit\InvalidArgumentException;
 /**
  * This class facilitates combining database operations. To create a composite
  * operation pass an array of classes that implement
- * PHPUnit_Extensions_Database_Operation_IDatabaseOperation and they will be
+ * PHPUnit\DbUnit\Operation\Operation and they will be
  * executed in that order against all data sets.
  */
 class Composite implements Operation
 {
     /**
-     * @var array
+     * @var Operation[]
      */
     protected $operations = [];
 
     /**
-     * Creates a composite operation.
-     *
-     * @param array $operations
+     * @param Operation[] $operations
      */
     public function __construct(array $operations)
     {
         foreach ($operations as $operation) {
-            if ($operation instanceof Operation) {
-                $this->operations[] = $operation;
-            } else {
-                throw new InvalidArgumentException('Only database operation instances can be passed to a composite database operation.');
+            if (!$operation instanceof Operation) {
+                throw new InvalidArgumentException(
+                    'Only database operation instances can be passed to a composite database operation.'
+                );
             }
+            $this->operations[] = $operation;
         }
     }
 
@@ -47,7 +46,6 @@ class Composite implements Operation
     {
         try {
             foreach ($this->operations as $operation) {
-                /* @var $operation Operation */
                 $operation->execute($connection, $dataSet);
             }
         } catch (Exception $e) {

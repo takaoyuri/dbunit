@@ -21,17 +21,13 @@ class FilterTest extends TestCase
 
     public function setUp(): void
     {
-        $this->expectedDataSet = new FlatXmlDataSet(
-            __DIR__ . '/../_files/XmlDataSets/FilteredTestFixture.xml'
-        );
+        $this->expectedDataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FilteredTestFixture.xml');
     }
 
     public function testDeprecatedFilteredDataSetConstructor(): void
     {
         $constraint = new DataSetIsEqual($this->expectedDataSet);
-        $dataSet    = new FlatXmlDataSet(
-            __DIR__ . '/../_files/XmlDataSets/FilteredTestComparison.xml'
-        );
+        $dataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FilteredTestComparison.xml');
 
         $filteredDataSet = new Filter($dataSet, [
             'table1' => ['table1_id'],
@@ -45,9 +41,7 @@ class FilterTest extends TestCase
     public function testExcludeFilteredDataSet(): void
     {
         $constraint = new DataSetIsEqual($this->expectedDataSet);
-        $dataSet    = new FlatXmlDataSet(
-            __DIR__ . '/../_files/XmlDataSets/FilteredTestComparison.xml'
-        );
+        $dataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FilteredTestComparison.xml');
 
         $filteredDataSet = new Filter($dataSet);
 
@@ -61,9 +55,7 @@ class FilterTest extends TestCase
     public function testIncludeFilteredDataSet(): void
     {
         $constraint = new DataSetIsEqual($this->expectedDataSet);
-        $dataSet    = new FlatXmlDataSet(
-            __DIR__ . '/../_files/XmlDataSets/FilteredTestComparison.xml'
-        );
+        $dataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FilteredTestComparison.xml');
 
         $filteredDataSet = new Filter($dataSet);
 
@@ -77,9 +69,7 @@ class FilterTest extends TestCase
     public function testIncludeExcludeMixedDataSet(): void
     {
         $constraint = new DataSetIsEqual($this->expectedDataSet);
-        $dataSet    = new FlatXmlDataSet(
-            __DIR__ . '/../_files/XmlDataSets/FilteredTestComparison.xml'
-        );
+        $dataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FilteredTestComparison.xml');
 
         $filteredDataSet = new Filter($dataSet);
 

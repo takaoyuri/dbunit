@@ -10,7 +10,6 @@
 
 namespace PHPUnit\DbUnit\Database;
 
-use PDO;
 use PHPUnit\DbUnit\Database\Metadata\Metadata;
 use PHPUnit\DbUnit\DataSet\IDataSet;
 use PHPUnit\DbUnit\DataSet\ITable;
@@ -34,7 +33,7 @@ interface Connection
      *
      * @return IDataSet
      */
-    public function createDataSet(array $tableNames = null);
+    public function createDataSet(array $tableNames = null): IDataSet;
 
     /**
      * Creates a table with the result of the specified SQL statement.
@@ -44,14 +43,14 @@ interface Connection
      *
      * @return ITable
      */
-    public function createQueryTable($resultName, $sql);
+    public function createQueryTable($resultName, $sql): ITable;
 
     /**
      * Returns a PDO Connection
      *
-     * @return PDO
+     * @return \PDO
      */
-    public function getConnection(): PDO;
+    public function getConnection(): \PDO;
 
     /**
      * Returns a database metadata object that can be used to retrieve table
@@ -85,7 +84,7 @@ interface Connection
      *
      * @return string
      */
-    public function quoteSchemaObject($object): string;
+    public function quoteSchemaObject(string $object): string;
 
     /**
      * Returns the command used to truncate a table.

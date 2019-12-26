@@ -24,12 +24,12 @@ class Replace extends RowBased
 
     /**
      * @param Connection $connection
-     * @param IDataSet   $dataSet
+     * @param IDataSet $dataSet
      */
     public function execute(Connection $connection, IDataSet $dataSet): void
     {
-        $insertOperation = new Insert;
-        $updateOperation = new Update;
+        $insertOperation = new Insert();
+        $updateOperation = new Update();
         $databaseDataSet = $connection->createDataSet();
 
         foreach ($dataSet as $table) {
@@ -48,26 +48,26 @@ class Replace extends RowBased
 
             for ($i = 0; $i < $rowCount; $i++) {
                 $selectArgs = $this->buildOperationArguments($databaseTableMetaData, $table, $i);
-                $query      = $selectQuery;
-                $args       = $selectArgs;
+                $query = $selectQuery;
+                $args = $selectArgs;
 
                 try {
                     $selectStatement->execute($selectArgs);
 
                     if ($selectStatement->fetchColumn(0) > 0) {
                         $updateArgs = $updateOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
-                        $query      = $updateQuery;
-                        $args       = $updateArgs;
+                        $query = $updateQuery;
+                        $args = $updateArgs;
 
                         $updateStatement->execute($updateArgs);
                     } else {
                         $insertArgs = $insertOperation->buildOperationArguments($databaseTableMetaData, $table, $i);
-                        $query      = $insertQuery;
-                        $args       = $insertArgs;
+                        $query = $insertQuery;
+                        $args = $insertArgs;
 
                         $insertStatement->execute($insertArgs);
                     }
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     throw new Exception(
                         $this->operationName,
                         $query,
@@ -80,22 +80,23 @@ class Replace extends RowBased
         }
     }
 
-    protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection)
-    {
+    protected function buildOperationQuery(
+        ITableMetadata $databaseTableMetaData,
+        ITable $table,
+        Connection $connection
+    ): string {
         $keys = $databaseTableMetaData->getPrimaryKeys();
 
         $whereStatement = 'WHERE ' . \implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
 
-        $query = "
+        return "
             SELECT COUNT(*)
             FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
             {$whereStatement}
         ";
-
-        return $query;
     }
 
-    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row)
+    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row): array
     {
         $args = [];
 

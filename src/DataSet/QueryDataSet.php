@@ -13,7 +13,7 @@ namespace PHPUnit\DbUnit\DataSet;
 use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\Database\Table;
 use PHPUnit\DbUnit\Database\TableIterator;
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Provides access to a database instance as a data set.
@@ -44,7 +44,7 @@ class QueryDataSet extends AbstractDataSet
         $this->databaseConnection = $databaseConnection;
     }
 
-    public function addTable($tableName, $query = null): void
+    public function addTable(string $tableName, $query = null): void
     {
         if ($query === null) {
             $query = 'SELECT * FROM ' . $tableName;
@@ -60,7 +60,7 @@ class QueryDataSet extends AbstractDataSet
      *
      * @return Table
      */
-    public function getTable($tableName)
+    public function getTable(string $tableName): ITable
     {
         if (!isset($this->tables[$tableName])) {
             throw new InvalidArgumentException("$tableName is not a table in the current database.");
@@ -74,7 +74,7 @@ class QueryDataSet extends AbstractDataSet
      *
      * @return array
      */
-    public function getTableNames()
+    public function getTableNames(): array
     {
         return \array_keys($this->tables);
     }
@@ -87,7 +87,7 @@ class QueryDataSet extends AbstractDataSet
      *
      * @return TableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator($reverse = false): ITableIterator
     {
         return new DefaultTableIterator($this->tables, $reverse);
     }

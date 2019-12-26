@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit;
+namespace PHPUnit\DbUnit\Exception;
 
 interface Exception
 {

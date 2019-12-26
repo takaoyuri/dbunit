@@ -20,5 +20,5 @@ interface IYamlParser
      *
      * @return array parsed YAML
      */
-    public function parseYaml($yamlFile);
+    public function parseYaml(string $yamlFile): array;
 }

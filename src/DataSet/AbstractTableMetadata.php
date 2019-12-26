@@ -39,7 +39,7 @@ abstract class AbstractTableMetadata implements ITableMetadata
      *
      * @return array
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columns;
     }
@@ -49,7 +49,7 @@ abstract class AbstractTableMetadata implements ITableMetadata
      *
      * @return array
      */
-    public function getPrimaryKeys()
+    public function getPrimaryKeys(): array
     {
         return $this->primaryKeys;
     }
@@ -59,7 +59,7 @@ abstract class AbstractTableMetadata implements ITableMetadata
      *
      * @return string
      */
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->tableName;
     }
@@ -68,15 +68,10 @@ abstract class AbstractTableMetadata implements ITableMetadata
      * Asserts that the given tableMetaData matches this tableMetaData.
      *
      * @param ITableMetadata $other
+     * @return bool
      */
-    public function matches(ITableMetadata $other)
+    public function matches(ITableMetadata $other): bool
     {
-        if ($this->getTableName() != $other->getTableName() ||
-            $this->getColumns() != $other->getColumns()
-        ) {
-            return false;
-        }
-
-        return true;
+        return $this->getTableName() === $other->getTableName() && $this->getColumns() === $other->getColumns();
     }
 }

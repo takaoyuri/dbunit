@@ -10,7 +10,6 @@
 
 namespace PHPUnit\DbUnit\Database;
 
-use PDO;
 use PHPUnit\DbUnit\DataSet\AbstractTable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 
@@ -31,8 +30,8 @@ class Table extends AbstractTable
 
         $pdoStatement = $databaseConnection
             ->getConnection()
-            ->prepare(DataSet::buildTableSelect($tableMetaData, $databaseConnection));
-        $pdoStatement->execute();
-        $this->data = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+            ->query(DataSet::buildTableSelect($tableMetaData, $databaseConnection));
+
+        $this->data = $pdoStatement->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

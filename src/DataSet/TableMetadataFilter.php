@@ -58,7 +58,7 @@ class TableMetadataFilter extends AbstractTableMetadata
      *
      * @return array
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         if (!empty($this->includeColumns)) {
             return \array_values(\array_intersect($this->originalMetaData->getColumns(), $this->includeColumns));
@@ -76,7 +76,7 @@ class TableMetadataFilter extends AbstractTableMetadata
      *
      * @return array
      */
-    public function getPrimaryKeys()
+    public function getPrimaryKeys(): array
     {
         return $this->originalMetaData->getPrimaryKeys();
     }
@@ -86,7 +86,7 @@ class TableMetadataFilter extends AbstractTableMetadata
      *
      * @return string
      */
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->originalMetaData->getTableName();
     }

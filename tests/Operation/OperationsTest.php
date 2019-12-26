@@ -42,23 +42,32 @@ class OperationsTest extends TestCase
 
     public function getDataSet()
     {
-        return new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/OperationsTestFixture.xml');
+        return new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/OperationsTestFixture.xml');
     }
 
     public function testDelete(): void
     {
         $deleteOperation = new Delete();
 
-        $deleteOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteOperationTest.xml'));
+        $deleteOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/DeleteOperationTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/DeleteOperationResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 
     public function testDeleteAll(): void
     {
         $deleteAllOperation = new DeleteAll();
 
-        $deleteAllOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteAllOperationTest.xml'));
+        $deleteAllOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/DeleteAllOperationTest.xml')
+        );
 
         $expectedDataSet = new DefaultDataSet([
             new DefaultTable(
@@ -88,7 +97,10 @@ class OperationsTest extends TestCase
     {
         $truncateOperation = new Truncate();
 
-        $truncateOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/DeleteAllOperationTest.xml'));
+        $truncateOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/DeleteAllOperationTest.xml')
+        );
 
         $expectedDataSet = new DefaultDataSet([
             new DefaultTable(
@@ -118,44 +130,74 @@ class OperationsTest extends TestCase
     {
         $insertOperation = new Insert();
 
-        $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/InsertOperationTest.xml'));
+        $insertOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/InsertOperationTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/InsertOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/InsertOperationResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 
     public function testUpdate(): void
     {
         $updateOperation = new Update();
 
-        $updateOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/UpdateOperationTest.xml'));
+        $updateOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/UpdateOperationTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/UpdateOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/UpdateOperationResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 
     public function testReplace(): void
     {
         $replaceOperation = new Replace();
 
-        $replaceOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/ReplaceOperationTest.xml'));
+        $replaceOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/ReplaceOperationTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/ReplaceOperationResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/ReplaceOperationResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 
     public function testInsertEmptyTable(): void
     {
         $insertOperation = new Insert();
 
-        $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/EmptyTableInsertTest.xml'));
+        $insertOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/EmptyTableInsertTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/EmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/EmptyTableInsertResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 
     public function testInsertAllEmptyTables(): void
     {
         $insertOperation = new Insert();
 
-        $insertOperation->execute($this->getConnection(), new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/AllEmptyTableInsertTest.xml'));
+        $insertOperation->execute(
+            $this->getConnection(),
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/AllEmptyTableInsertTest.xml')
+        );
 
-        self::assertDataSetsEqual(new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/AllEmptyTableInsertResult.xml'), $this->getConnection()->createDataSet());
+        self::assertDataSetsEqual(
+            new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/AllEmptyTableInsertResult.xml'),
+            $this->getConnection()->createDataSet()
+        );
     }
 }

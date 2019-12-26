@@ -36,16 +36,15 @@ class QueryTable extends AbstractTable
     /**
      * Creates a new database query table object.
      *
-     * @param string     $table_name
-     * @param string     $query
+     * @param string $tableName
+     * @param string $query
      * @param Connection $databaseConnection
-     * @param mixed      $tableName
      */
-    public function __construct($tableName, $query, Connection $databaseConnection)
+    public function __construct(string $tableName, string $query, Connection $databaseConnection)
     {
-        $this->query              = $query;
+        $this->tableName = $tableName;
+        $this->query = $query;
         $this->databaseConnection = $databaseConnection;
-        $this->tableName          = $tableName;
     }
 
     /**
@@ -53,7 +52,7 @@ class QueryTable extends AbstractTable
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData()
+    public function getTableMetaData(): ITableMetadata
     {
         $this->createTableMetaData();
 
@@ -67,7 +66,7 @@ class QueryTable extends AbstractTable
      *
      * @return bool
      */
-    public function assertContainsRow(array $row)
+    public function assertContainsRow(array $row): bool
     {
         $this->loadData();
 
@@ -79,7 +78,7 @@ class QueryTable extends AbstractTable
      *
      * @return int
      */
-    public function getRowCount()
+    public function getRowCount(): int
     {
         $this->loadData();
 
@@ -90,9 +89,10 @@ class QueryTable extends AbstractTable
      * Returns the value for the given column on the given row.
      *
      * @param int $row
-     * @param int $column
+     * @param string $column
+     * @return mixed
      */
-    public function getValue($row, $column)
+    public function getValue(int $row, string $column)
     {
         $this->loadData();
 
@@ -106,7 +106,7 @@ class QueryTable extends AbstractTable
      *
      * @return array
      */
-    public function getRow($row)
+    public function getRow(int $row): array
     {
         $this->loadData();
 
@@ -117,8 +117,9 @@ class QueryTable extends AbstractTable
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     * @return bool
      */
-    public function matches(ITable $other)
+    public function matches(ITable $other): bool
     {
         $this->loadData();
 
@@ -129,7 +130,7 @@ class QueryTable extends AbstractTable
     {
         if ($this->data === null) {
             $pdoStatement = $this->databaseConnection->getConnection()->query($this->query);
-            $this->data   = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+            $this->data = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 

@@ -26,7 +26,7 @@ interface Operation
      * @param Connection $connection
      * @param IDataSet   $dataSet
      *
-     * @throws Exception
+     * @throws \Throwable
      */
-    public function execute(Connection $connection, IDataSet $dataSet);
+    public function execute(Connection $connection, IDataSet $dataSet): void;
 }

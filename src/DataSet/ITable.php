@@ -20,22 +20,22 @@ interface ITable
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData();
+    public function getTableMetaData(): ITableMetadata;
 
     /**
      * Returns the number of rows in this table.
      *
      * @return int
      */
-    public function getRowCount();
+    public function getRowCount(): int;
 
     /**
      * Returns the value for the given column on the given row.
      *
      * @param int $row
-     * @param int $column
+     * @param string $column
      */
-    public function getValue($row, $column);
+    public function getValue(int $row, string $column);
 
     /**
      * Returns the an associative array keyed by columns for the given row.
@@ -44,12 +44,13 @@ interface ITable
      *
      * @return array
      */
-    public function getRow($row);
+    public function getRow(int $row): array;
 
     /**
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     * @return bool
      */
-    public function matches(self $other);
+    public function matches(ITable $other): bool;
 }

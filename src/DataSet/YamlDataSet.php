@@ -33,12 +33,10 @@ class YamlDataSet extends AbstractDataSet
      * @param string      $yamlFile
      * @param IYamlParser $parser
      */
-    public function __construct($yamlFile, $parser = null)
+    public function __construct(string $yamlFile, IYamlParser $parser = null)
     {
-        if ($parser == null) {
-            $parser = new SymfonyYamlParser();
-        }
-        $this->parser = $parser;
+        $this->parser = $parser ?? new SymfonyYamlParser();
+
         $this->addYamlFile($yamlFile);
     }
 
@@ -47,7 +45,7 @@ class YamlDataSet extends AbstractDataSet
      *
      * @param string $yamlFile
      */
-    public function addYamlFile($yamlFile): void
+    public function addYamlFile(string $yamlFile): void
     {
         $data = $this->parser->parseYaml($yamlFile);
 
@@ -63,14 +61,9 @@ class YamlDataSet extends AbstractDataSet
             if (!\array_key_exists($tableName, $this->tables)) {
                 $columns = $this->getColumns($rows);
 
-                $tableMetaData = new DefaultTableMetadata(
-                    $tableName,
-                    $columns
-                );
+                $tableMetaData = new DefaultTableMetadata($tableName, $columns);
 
-                $this->tables[$tableName] = new DefaultTable(
-                    $tableMetaData
-                );
+                $this->tables[$tableName] = new DefaultTable($tableMetaData);
             }
 
             foreach ($rows as $row) {
@@ -87,34 +80,26 @@ class YamlDataSet extends AbstractDataSet
      *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
-        return new DefaultTableIterator(
-            $this->tables,
-            $reverse
-        );
+        return new DefaultTableIterator($this->tables, $reverse);
     }
 
     /**
      * Creates a unique list of columns from all the rows in a table.
      * If the table is defined another time in the Yaml, and if the Yaml
-     * parser could return the multiple occerrences, then this would be
-     * insufficient unless we grouped all the occurences of the table
-     * into onwe row set.  sfYaml, however, does not provide multiple tables
+     * parser could return the multiple occurrences, then this would be
+     * insufficient unless we grouped all the occurrences of the table
+     * into one row set. sfYaml, however, does not provide multiple tables
      * with the same name, it only supplies the last table.
      *
      * @params all the rows in a table.
      *
-     * @param mixed $rows
+     * @param array $rows
+     * @return array
      */
-    private function getColumns($rows)
+    private function getColumns(array $rows): array
     {
-        $columns = [];
-
-        foreach ($rows as $row) {
-            $columns = \array_merge($columns, \array_keys($row));
-        }
-
-        return \array_values(\array_unique($columns));
+        return array_keys(array_merge(...$rows));
     }
 }

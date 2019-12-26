@@ -11,7 +11,6 @@
 namespace PHPUnit\DbUnit\Constraint;
 
 use PHPUnit\Framework\Constraint\Constraint;
-use function sprintf;
 
 /**
  * Asserts the row count in a table
@@ -29,15 +28,13 @@ class TableRowCount extends Constraint
     protected $tableName;
 
     /**
-     * Creates a new constraint.
-     *
-     * @param $tableName
-     * @param $value
+     * @param string $tableName
+     * @param int $value
      */
-    public function __construct($tableName, $value)
+    public function __construct(string $tableName, int $value)
     {
         $this->tableName = $tableName;
-        $this->value     = $value;
+        $this->value = $value;
     }
 
     /**
@@ -47,7 +44,7 @@ class TableRowCount extends Constraint
      */
     public function toString(): string
     {
-        return sprintf('is equal to expected row count %d', $this->value);
+        return \sprintf('is equal to expected row count %d', $this->value);
     }
 
     /**
@@ -62,6 +59,6 @@ class TableRowCount extends Constraint
      */
     protected function matches($other): bool
     {
-        return $other == $this->value;
+        return $other === $this->value;
     }
 }

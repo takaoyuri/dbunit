@@ -35,14 +35,14 @@ class AbstractTableTest extends TestCase
         $this->table = new DefaultTable($tableMetaData);
 
         $this->table->addRow([
-            'id'      => 1,
+            'id' => 1,
             'column1' => 'randomValue'
         ]);
     }
 
     /**
      * @param array $row
-     * @param bool  $exists
+     * @param bool $exists
      * @dataProvider providerTableContainsRow
      */
     public function testTableContainsRow($row, $exists): void
@@ -82,13 +82,13 @@ class AbstractTableTest extends TestCase
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
         $otherMetaData = $this->createMock(ITableMetadata::class);
-        $otherTable    = $this->createMock(ITable::class);
+        $otherTable = $this->createMock(ITable::class);
 
         /** @var MockObject|DefaultTable $table */
         $table = $this->getMockBuilder(DefaultTable::class)
-                      ->setConstructorArgs([$tableMetaData])
-                      ->setMethods(['getRowCount'])
-                      ->getMock();
+            ->setConstructorArgs([$tableMetaData])
+            ->onlyMethods(['getRowCount'])
+            ->getMock();
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
@@ -112,20 +112,20 @@ class AbstractTableTest extends TestCase
     /**
      * @param array $tableColumnValues
      * @param array $otherColumnValues
-     * @param bool  $matches
+     * @param bool $matches
      * @dataProvider providerMatchesWithColumnValueComparisons
      */
     public function testMatchesWithColumnValueComparisons($tableColumnValues, $otherColumnValues, $matches): void
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
         $otherMetaData = $this->createMock(ITableMetadata::class);
-        $otherTable    = $this->createMock(ITable::class);
+        $otherTable = $this->createMock(ITable::class);
 
         /** @var MockObject|DefaultTable $table */
         $table = $this->getMockBuilder(DefaultTable::class)
-                      ->setConstructorArgs([$tableMetaData])
-                      ->setMethods(['getRowCount', 'getValue'])
-                      ->getMock();
+            ->setConstructorArgs([$tableMetaData])
+            ->onlyMethods(['getRowCount', 'getValue'])
+            ->getMock();
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')

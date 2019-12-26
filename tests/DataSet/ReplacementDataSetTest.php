@@ -23,7 +23,7 @@ class ReplacementDataSetTest extends \PHPUnit\Framework\TestCase
      */
     protected $startingDataSet;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $table1MetaData = new DefaultTableMetadata(
             'table1',

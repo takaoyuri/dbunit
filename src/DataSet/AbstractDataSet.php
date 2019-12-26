@@ -10,6 +10,8 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
+
 /**
  * Implements the basic functionality of data sets.
  */
@@ -33,12 +35,11 @@ abstract class AbstractDataSet implements IDataSet
      *
      * @return array
      */
-    public function getTableNames()
+    public function getTableNames(): array
     {
         $tableNames = [];
 
         foreach ($this->getIterator() as $table) {
-            /* @var $table ITable */
             $tableNames[] = $table->getTableMetaData()->getTableName();
         }
 
@@ -52,7 +53,7 @@ abstract class AbstractDataSet implements IDataSet
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData($tableName)
+    public function getTableMetaData(string $tableName): ITableMetadata
     {
         return $this->getTable($tableName)->getTableMetaData();
     }
@@ -64,14 +65,15 @@ abstract class AbstractDataSet implements IDataSet
      *
      * @return ITable
      */
-    public function getTable($tableName)
+    public function getTable(string $tableName): ITable
     {
         foreach ($this->getIterator() as $table) {
-            /* @var $table ITable */
-            if ($table->getTableMetaData()->getTableName() == $tableName) {
+            if ($table->getTableMetaData()->getTableName() === $tableName) {
                 return $table;
             }
         }
+
+        throw new InvalidArgumentException("{$tableName} is not a table in the current database.");
     }
 
     /**
@@ -79,7 +81,7 @@ abstract class AbstractDataSet implements IDataSet
      *
      * @return ITableIterator
      */
-    public function getIterator()
+    public function getIterator(): ITableIterator
     {
         return $this->createIterator();
     }
@@ -89,7 +91,7 @@ abstract class AbstractDataSet implements IDataSet
      *
      * @return ITableIterator
      */
-    public function getReverseIterator()
+    public function getReverseIterator(): ITableIterator
     {
         return $this->createIterator(true);
     }
@@ -98,16 +100,17 @@ abstract class AbstractDataSet implements IDataSet
      * Asserts that the given data set matches this data set.
      *
      * @param IDataSet $other
+     * @return bool
      */
-    public function matches(IDataSet $other)
+    public function matches(IDataSet $other): bool
     {
-        $thisTableNames  = $this->getTableNames();
+        $thisTableNames = $this->getTableNames();
         $otherTableNames = $other->getTableNames();
 
         \sort($thisTableNames);
         \sort($otherTableNames);
 
-        if ($thisTableNames != $otherTableNames) {
+        if ($thisTableNames !== $otherTableNames) {
             return false;
         }
 
@@ -127,8 +130,7 @@ abstract class AbstractDataSet implements IDataSet
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
-     *
      * @return ITableIterator
      */
-    abstract protected function createIterator($reverse = false);
+    abstract protected function createIterator(bool $reverse = false): ITableIterator;
 }

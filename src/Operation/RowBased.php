@@ -25,38 +25,45 @@ use PHPUnit\DbUnit\DataSet\ITableMetadata;
  */
 abstract class RowBased implements Operation
 {
-    const ITERATOR_TYPE_FORWARD = 0;
-    const ITERATOR_TYPE_REVERSE = 1;
+    protected const ITERATOR_TYPE_FORWARD = 0;
+    protected const ITERATOR_TYPE_REVERSE = 1;
 
+    /**
+     * @var string
+     */
     protected $operationName;
 
     protected $iteratorDirection = self::ITERATOR_TYPE_FORWARD;
 
     /**
      * @param Connection $connection
-     * @param IDataSet   $dataSet
+     * @param IDataSet $dataSet
      */
     public function execute(Connection $connection, IDataSet $dataSet): void
     {
         $databaseDataSet = $connection->createDataSet();
 
-        $dsIterator = $this->iteratorDirection == self::ITERATOR_TYPE_REVERSE ? $dataSet->getReverseIterator() : $dataSet->getIterator();
+        $dsIterator = $this->iteratorDirection === self::ITERATOR_TYPE_REVERSE
+            ? $dataSet->getReverseIterator()
+            : $dataSet->getIterator();
 
         foreach ($dsIterator as $table) {
             $rowCount = $table->getRowCount();
 
-            if ($rowCount == 0) {
+            if ($rowCount === 0) {
                 continue;
             }
 
             /* @var $table ITable */
             $databaseTableMetaData = $databaseDataSet->getTableMetaData($table->getTableMetaData()->getTableName());
-            $query                 = $this->buildOperationQuery($databaseTableMetaData, $table, $connection);
-            $disablePrimaryKeys    = $this->disablePrimaryKeys($databaseTableMetaData, $table, $connection);
+            $query = $this->buildOperationQuery($databaseTableMetaData, $table, $connection);
+            $disablePrimaryKeys = $this->disablePrimaryKeys($databaseTableMetaData, $table, $connection);
 
             if ($query === false) {
                 if ($table->getRowCount() > 0) {
-                    throw new Exception($this->operationName, '', [], $table, 'Rows requested for insert, but no columns provided!');
+                    throw new Exception(
+                        $this->operationName, '', [], $table, 'Rows requested for insert, but no columns provided!'
+                    );
                 }
 
                 continue;
@@ -91,9 +98,16 @@ abstract class RowBased implements Operation
     }
 
     /**
+     * @param ITableMetadata $databaseTableMetaData
+     * @param ITable $table
+     * @param Connection $connection
      * @return bool|string String containing the query or FALSE if a valid query cannot be constructed
      */
-    abstract protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection);
+    abstract protected function buildOperationQuery(
+        ITableMetadata $databaseTableMetaData,
+        ITable $table,
+        Connection $connection
+    );
 
     abstract protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row);
 
@@ -101,15 +115,16 @@ abstract class RowBased implements Operation
      * Allows an operation to disable primary keys if necessary.
      *
      * @param ITableMetadata $databaseTableMetaData
-     * @param ITable         $table
-     * @param Connection     $connection
+     * @param ITable $table
+     * @param Connection $connection
+     * @return bool
      */
-    protected function disablePrimaryKeys(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection)
+    protected function disablePrimaryKeys(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection): bool
     {
         return false;
     }
 
-    protected function buildPreparedColumnArray($columns, Connection $connection)
+    protected function buildPreparedColumnArray($columns, Connection $connection): array
     {
         $columnArray = [];
 

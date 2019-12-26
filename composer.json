@@ -23,7 +23,8 @@
         "php": "^7.2",
         "ext-pdo": "*",
         "ext-simplexml": "*",
-        "phpunit/phpunit": "^8.4",
+        "ext-libxml": "*",
+        "phpunit/phpunit": "^8.5",
         "symfony/yaml": "^4.4|^5.0"
     },
     "require-dev": {
@@ -31,9 +32,9 @@
         "php-coveralls/php-coveralls": "^2.2"
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "PHPUnit\\DbUnit\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

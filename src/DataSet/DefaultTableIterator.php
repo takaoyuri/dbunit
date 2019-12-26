@@ -49,7 +49,7 @@ class DefaultTableIterator implements ITableIterator
      *
      * @return ITable
      */
-    public function getTable()
+    public function getTable(): ITable
     {
         return $this->current();
     }
@@ -59,7 +59,7 @@ class DefaultTableIterator implements ITableIterator
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData()
+    public function getTableMetaData(): ITableMetadata
     {
         return $this->current()->getTableMetaData();
     }
@@ -67,7 +67,7 @@ class DefaultTableIterator implements ITableIterator
     /**
      * Returns the current table.
      *
-     * @return ITable
+     * @return ITable|false
      */
     public function current()
     {
@@ -79,7 +79,7 @@ class DefaultTableIterator implements ITableIterator
      *
      * @return string
      */
-    public function key()
+    public function key(): string
     {
         return $this->current()->getTableMetaData()->getTableName();
     }
@@ -113,7 +113,7 @@ class DefaultTableIterator implements ITableIterator
      *
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->current() !== false;
     }
