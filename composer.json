@@ -1,6 +1,6 @@
 {
     "name": "misantron/dbunit",
-    "description": "DbUnit fork for PHPUnit 8",
+    "description": "DbUnit fork supporting PHPUnit 8/9",
     "type": "library",
     "keywords": [
         "database",
@@ -24,7 +24,7 @@
         "ext-pdo": "*",
         "ext-simplexml": "*",
         "ext-libxml": "*",
-        "phpunit/phpunit": "^8.5|^9.0",
+        "phpunit/phpunit": "^8.5|^9.2",
         "symfony/yaml": "^4.4|^5.0"
     },
     "require-dev": {

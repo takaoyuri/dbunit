@@ -1,6 +1,5 @@
-# DbUnit fork for PHPUnit 8
+# DbUnit fork supporting PHPUnit 8/9
 
-![PHP](https://img.shields.io/badge/php-7.2-blueviolet.svg?style=flat-square&maxAge=2592000)
 [![Build Status](https://img.shields.io/travis/com/misantron/dbunit.svg?style=flat-square&maxAge=2592000)](https://travis-ci.com/misantron/dbunit)
 [![Code Coverage](https://img.shields.io/coveralls/github/misantron/dbunit.svg?style=flat-square)](https://coveralls.io/github/misantron/dbunit)
 [![Version](https://img.shields.io/packagist/v/misantron/dbunit.svg?style=flat-square)](https://packagist.org/packages/misantron/dbunit)
