@@ -10,8 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
-use function in_array;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Creates Composite Datasets
@@ -48,14 +47,16 @@ class CompositeDataSet extends AbstractDataSet
     public function addDataSet(IDataSet $dataSet): void
     {
         foreach ($dataSet->getTableNames() as $tableName) {
-            if (!in_array($tableName, $this->getTableNames(), true)) {
+            if (!\in_array($tableName, $this->getTableNames(), true)) {
                 $this->motherDataSet->addTable($dataSet->getTable($tableName));
             } else {
                 $other = $dataSet->getTable($tableName);
                 $table = $this->getTable($tableName);
 
                 if (!$table->getTableMetaData()->matches($other->getTableMetaData())) {
-                    throw new InvalidArgumentException("There is already a table named $tableName with different table definition");
+                    throw new InvalidArgumentException(
+                        "There is already a table named $tableName with different table definition"
+                    );
                 }
 
                 $table->addTableRows($dataSet->getTable($tableName));
@@ -68,10 +69,9 @@ class CompositeDataSet extends AbstractDataSet
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
-     *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         if ($reverse) {
             return $this->motherDataSet->getReverseIterator();

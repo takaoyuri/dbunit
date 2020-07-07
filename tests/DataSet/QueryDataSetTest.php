@@ -97,6 +97,6 @@ class QueryDataSetTest extends TestCase
 
     protected function getDataSet()
     {
-        return $this->createFlatXMLDataSet(__DIR__ . '/../_files/XmlDataSets/QueryDataSetTest.xml');
+        return $this->createFlatXMLDataSet(TEST_FILES_PATH . 'XmlDataSets/QueryDataSetTest.xml');
     }
 }

@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\RuntimeException;
+use PHPUnit\DbUnit\Exception\RuntimeException;
 
 /**
  * The default implementation of a data set.
@@ -19,7 +19,7 @@ class XmlDataSet extends AbstractXmlDataSet
 {
     protected function getTableInfo(array &$tableColumns, array &$tableValues): void
     {
-        if ($this->xmlFileContents->getName() != 'dataset') {
+        if ($this->xmlFileContents->getName() !== 'dataset') {
             throw new RuntimeException('The root element of an xml data set file must be called <dataset>');
         }
 
@@ -44,10 +44,12 @@ class XmlDataSet extends AbstractXmlDataSet
                 $columnName = (string) $columnElement;
 
                 if (empty($columnName)) {
-                    throw new RuntimeException("Missing <column> elements for table $tableName. Add one or more <column> elements to the <table> element.");
+                    throw new RuntimeException(
+                        "Missing <column> elements for table $tableName. Add one or more <column> elements to the <table> element."
+                    );
                 }
 
-                if (!\in_array($columnName, $tableColumns[$tableName])) {
+                if (!\in_array($columnName, $tableColumns[$tableName], true)) {
                     $tableColumns[$tableName][] = $columnName;
                 }
 
@@ -55,13 +57,15 @@ class XmlDataSet extends AbstractXmlDataSet
             }
 
             foreach ($tableElement->xpath('./row') as $rowElement) {
-                $rowValues                 = [];
-                $index                     = 0;
+                $rowValues = [];
+                $index = 0;
                 $numOfTableInstanceColumns = \count($tableInstanceColumns);
 
                 foreach ($rowElement->children() as $columnValue) {
                     if ($index >= $numOfTableInstanceColumns) {
-                        throw new RuntimeException("Row contains more values than the number of columns defined for table $tableName.");
+                        throw new RuntimeException(
+                            "Row contains more values than the number of columns defined for table {$tableName}."
+                        );
                     }
 
                     switch ($columnValue->getName()) {
@@ -76,7 +80,7 @@ class XmlDataSet extends AbstractXmlDataSet
 
                             break;
                         default:
-                            throw new RuntimeException('Unknown element ' . $columnValue->getName() . ' in a row element.');
+                            throw new RuntimeException("Unknown element {$columnValue->getName()} in a row element.");
                     }
                 }
 

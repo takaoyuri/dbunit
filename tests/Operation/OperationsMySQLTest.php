@@ -42,7 +42,7 @@ class OperationsMySQLTest extends TestCase
 
     public function getDataSet()
     {
-        return new FlatXmlDataSet(__DIR__ . '/../_files/XmlDataSets/OperationsMySQLTestFixture.xml');
+        return new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/OperationsMySQLTestFixture.xml');
     }
 
     public function testTruncate(): void
@@ -78,7 +78,7 @@ class OperationsMySQLTest extends TestCase
     {
         $compositeDataset = new CompositeDataSet();
 
-        $dataset = $this->createXMLDataSet(__DIR__ . '/../_files/XmlDataSets/TruncateCompositeTest.xml');
+        $dataset = $this->createXMLDataSet(TEST_FILES_PATH . 'XmlDataSets/TruncateCompositeTest.xml');
         $compositeDataset->addDataSet($dataset);
 
         return $compositeDataset;

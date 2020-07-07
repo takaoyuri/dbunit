@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Provides default table functionality.
@@ -49,7 +49,7 @@ class DefaultTable extends AbstractTable
     public function addTableRows(ITable $table): void
     {
         $tableColumns = $this->getTableMetaData()->getColumns();
-        $rowCount     = $table->getRowCount();
+        $rowCount = $table->getRowCount();
 
         for ($i = 0; $i < $rowCount; $i++) {
             $newRow = [];
@@ -62,18 +62,18 @@ class DefaultTable extends AbstractTable
     }
 
     /**
-     * Sets the specified column of the specied row to the specified value.
+     * Sets the specified column of the specified row to the specified value.
      *
-     * @param int    $row
+     * @param int $row
      * @param string $column
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setValue($row, $column, $value): void
     {
-        if (isset($this->data[$row])) {
-            $this->data[$row][$column] = $value;
-        } else {
+        if (!isset($this->data[$row])) {
             throw new InvalidArgumentException('The row given does not exist.');
         }
+
+        $this->data[$row][$column] = $value;
     }
 }

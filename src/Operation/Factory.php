@@ -33,7 +33,7 @@ class Factory
      *
      * @return Operation
      */
-    public static function CLEAN_INSERT($cascadeTruncates = false)
+    public static function CLEAN_INSERT(bool $cascadeTruncates = false)
     {
         return new Composite([
             self::TRUNCATE($cascadeTruncates),

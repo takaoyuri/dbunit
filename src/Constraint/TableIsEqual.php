@@ -11,9 +11,8 @@
 namespace PHPUnit\DbUnit\Constraint;
 
 use PHPUnit\DbUnit\DataSet\ITable;
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
-use function sprintf;
 
 /**
  * Asserts whether or not two dbunit tables are equal.
@@ -26,13 +25,6 @@ class TableIsEqual extends Constraint
     protected $value;
 
     /**
-     * @var string
-     */
-    protected $failure_reason;
-
-    /**
-     * Creates a new constraint.
-     *
      * @param ITable $value
      */
     public function __construct(ITable $value)
@@ -47,7 +39,7 @@ class TableIsEqual extends Constraint
      */
     public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'is equal to expected %s',
             (string) $this->value
         );
@@ -66,9 +58,7 @@ class TableIsEqual extends Constraint
     protected function matches($other): bool
     {
         if (!$other instanceof ITable) {
-            throw new InvalidArgumentException(
-                'PHPUnit_Extensions_Database_DataSet_ITable expected'
-            );
+            throw new InvalidArgumentException('Only table instance can be matched');
         }
 
         return $this->value->matches($other);

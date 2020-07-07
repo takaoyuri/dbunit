@@ -23,8 +23,6 @@ class DefaultDataSet extends AbstractDataSet
     protected $tables;
 
     /**
-     * Creates a new dataset using the given tables.
-     *
      * @param array $tables
      */
     public function __construct(array $tables = [])
@@ -47,10 +45,9 @@ class DefaultDataSet extends AbstractDataSet
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
-     *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         return new DefaultTableIterator($this->tables, $reverse);
     }

@@ -10,10 +10,10 @@
 
 namespace PHPUnit\DbUnit\Database;
 
-use PDO;
 use PHPUnit\DbUnit\Database\Metadata\AbstractMetadata;
 use PHPUnit\DbUnit\Database\Metadata\Metadata;
 use PHPUnit\DbUnit\DataSet\IDataSet;
+use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\QueryTable;
 
 /**
@@ -22,7 +22,7 @@ use PHPUnit\DbUnit\DataSet\QueryTable;
 class DefaultConnection implements Connection
 {
     /**
-     * @var PDO
+     * @var \PDO
      */
     protected $connection;
 
@@ -36,14 +36,14 @@ class DefaultConnection implements Connection
     /**
      * Creates a new database connection
      *
-     * @param PDO    $connection
-     * @param string $schema     - The name of the database schema you will be testing against
+     * @param \PDO    $connection
+     * @param string  $schema
      */
-    public function __construct(PDO $connection, $schema = '')
+    public function __construct(\PDO $connection, string $schema = '')
     {
         $this->connection = $connection;
-        $this->metaData   = AbstractMetadata::createMetaData($connection, $schema);
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->metaData = AbstractMetadata::createMetaData($connection, $schema);
+        $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
     /**
@@ -86,7 +86,7 @@ class DefaultConnection implements Connection
      *
      * @todo Implement the filtered data set.
      */
-    public function createDataSet(array $tableNames = null)
+    public function createDataSet(array $tableNames = null): IDataSet
     {
         if (empty($tableNames)) {
             return new DataSet($this);
@@ -103,7 +103,7 @@ class DefaultConnection implements Connection
      *
      * @return QueryTable
      */
-    public function createQueryTable($resultName, $sql)
+    public function createQueryTable($resultName, $sql): ITable
     {
         return new QueryTable($resultName, $sql, $this);
     }
@@ -118,9 +118,9 @@ class DefaultConnection implements Connection
     /**
      * Returns a PDO Connection
      *
-     * @return PDO
+     * @return \PDO
      */
-    public function getConnection(): PDO
+    public function getConnection(): \PDO
     {
         return $this->connection;
     }
@@ -136,7 +136,7 @@ class DefaultConnection implements Connection
      */
     public function getRowCount($tableName, $whereClause = null): int
     {
-        $query = 'SELECT COUNT(*) FROM ' . $this->quoteSchemaObject($tableName);
+        $query = "SELECT COUNT(*) FROM {$this->quoteSchemaObject($tableName)}";
 
         if (isset($whereClause)) {
             $query .= " WHERE {$whereClause}";
@@ -152,7 +152,7 @@ class DefaultConnection implements Connection
      *
      * @return string
      */
-    public function quoteSchemaObject($object): string
+    public function quoteSchemaObject(string $object): string
     {
         return $this->getMetaData()->quoteSchemaObject($object);
     }

@@ -10,24 +10,22 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use Iterator;
-
 /**
  * Provides a basic interface for creating and reading data from data sets.
  */
-interface ITableIterator extends Iterator
+interface ITableIterator extends \Iterator
 {
     /**
      * Returns the current table.
      *
      * @return ITable
      */
-    public function getTable();
+    public function getTable(): ITable;
 
     /**
      * Returns the current table's meta data.
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData();
+    public function getTableMetaData(): ITableMetadata;
 }

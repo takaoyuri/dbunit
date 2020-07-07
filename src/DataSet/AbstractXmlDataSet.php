@@ -10,9 +10,8 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
-use RuntimeException;
-use SimpleXmlElement;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\RuntimeException;
 
 /**
  * The default implementation of a data set.
@@ -25,27 +24,24 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
     protected $tables;
 
     /**
-     * @var SimpleXmlElement
+     * @var \SimpleXmlElement
      */
     protected $xmlFileContents;
 
     /**
-     * Creates a new dataset using the given tables.
-     *
-     * @param array $tables
-     * @param mixed $xmlFile
+     * @param string $xmlFile
      */
-    public function __construct($xmlFile)
+    public function __construct(string $xmlFile)
     {
         if (!\is_file($xmlFile)) {
-            throw new InvalidArgumentException(
-                "Could not find xml file: {$xmlFile}"
-            );
+            throw new InvalidArgumentException("Could not find xml file: {$xmlFile}");
         }
 
-        $libxmlEntityLoader    = \libxml_disable_entity_loader(false);
-        $libxmlErrorReporting  = \libxml_use_internal_errors(true);
-        $this->xmlFileContents = \simplexml_load_file($xmlFile, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_PARSEHUGE);
+        $libxmlEntityLoader = \libxml_disable_entity_loader(false);
+        $libxmlErrorReporting = \libxml_use_internal_errors(true);
+        $this->xmlFileContents = \simplexml_load_string(
+            \file_get_contents($xmlFile), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_PARSEHUGE
+        );
 
         if (!$this->xmlFileContents) {
             $message = '';
@@ -62,7 +58,7 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
         \libxml_disable_entity_loader($libxmlEntityLoader);
 
         $tableColumns = [];
-        $tableValues  = [];
+        $tableValues = [];
 
         $this->getTableInfo($tableColumns, $tableValues);
         $this->createTables($tableColumns, $tableValues);
@@ -71,6 +67,9 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
     /**
      * Reads the simple xml object and creates the appropriate tables and meta
      * data for this dataset.
+     *
+     * @param array $tableColumns
+     * @param array $tableValues
      */
     abstract protected function getTableInfo(array &$tableColumns, array &$tableValues);
 
@@ -90,14 +89,14 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
      * an empty one is created.
      *
      * @param string $tableName
-     * @param mixed  $tableColumns
+     * @param mixed $tableColumns
      *
      * @return ITable
      */
-    protected function getOrCreateTable($tableName, $tableColumns)
+    protected function getOrCreateTable($tableName, $tableColumns): ITable
     {
         if (empty($this->tables[$tableName])) {
-            $tableMetaData            = new DefaultTableMetadata($tableName, $tableColumns);
+            $tableMetaData = new DefaultTableMetadata($tableName, $tableColumns);
             $this->tables[$tableName] = new DefaultTable($tableMetaData);
         }
 
@@ -112,7 +111,7 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
      *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         return new DefaultTableIterator($this->tables, $reverse);
     }

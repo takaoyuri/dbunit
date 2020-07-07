@@ -10,10 +10,8 @@
 
 namespace PHPUnit\DbUnit\Operation;
 
-use PDOException;
 use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\DataSet\IDataSet;
-use PHPUnit\DbUnit\DataSet\ITable;
 
 /**
  * Deletes all rows from all tables in a dataset.
@@ -23,15 +21,11 @@ class DeleteAll implements Operation
     public function execute(Connection $connection, IDataSet $dataSet): void
     {
         foreach ($dataSet->getReverseIterator() as $table) {
-            /* @var $table ITable */
-
-            $query = "
-                DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
-            ";
+            $query = "DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}";
 
             try {
-                $connection->getConnection()->query($query);
-            } catch (PDOException $e) {
+                $connection->getConnection()->exec($query);
+            } catch (\PDOException $e) {
                 throw new Exception('DELETE_ALL', $query, [], $table, $e->getMessage());
             }
         }

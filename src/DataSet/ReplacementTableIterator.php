@@ -77,7 +77,7 @@ class ReplacementTableIterator implements OuterIterator, ITableIterator
      *
      * @return ITable
      */
-    public function getTable()
+    public function getTable(): ITable
     {
         return $this->current();
     }
@@ -87,9 +87,9 @@ class ReplacementTableIterator implements OuterIterator, ITableIterator
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData()
+    public function getTableMetaData(): ITableMetadata
     {
-        $this->current()->getTableMetaData();
+        return $this->current()->getTableMetaData();
     }
 
     /**
@@ -97,7 +97,7 @@ class ReplacementTableIterator implements OuterIterator, ITableIterator
      *
      * @return ITable
      */
-    public function current()
+    public function current(): ITable
     {
         return new ReplacementTable($this->innerIterator->current(), $this->fullReplacements, $this->subStrReplacements);
     }
@@ -107,7 +107,7 @@ class ReplacementTableIterator implements OuterIterator, ITableIterator
      *
      * @return string
      */
-    public function key()
+    public function key(): string
     {
         return $this->current()->getTableMetaData()->getTableName();
     }
@@ -133,7 +133,7 @@ class ReplacementTableIterator implements OuterIterator, ITableIterator
      *
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->innerIterator->valid();
     }

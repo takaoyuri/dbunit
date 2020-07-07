@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\RuntimeException;
+use PHPUnit\DbUnit\Exception\RuntimeException;
 
 /**
  * The default implementation of a data set.
@@ -19,7 +19,7 @@ class FlatXmlDataSet extends AbstractXmlDataSet
 {
     protected function getTableInfo(array &$tableColumns, array &$tableValues): void
     {
-        if ($this->xmlFileContents->getName() != 'dataset') {
+        if ($this->xmlFileContents->getName() !== 'dataset') {
             throw new RuntimeException('The root element of a flat xml data set file must be called <dataset>');
         }
 
@@ -34,7 +34,7 @@ class FlatXmlDataSet extends AbstractXmlDataSet
             $values = [];
 
             foreach ($row->attributes() as $name => $value) {
-                if (!\in_array($name, $tableColumns[$tableName])) {
+                if (!\in_array($name, $tableColumns[$tableName], true)) {
                     $tableColumns[$tableName][] = $name;
                 }
 

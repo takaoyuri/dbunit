@@ -10,7 +10,6 @@
 
 namespace PHPUnit\DbUnit;
 
-use PDO;
 use PHPUnit\DbUnit\Constraint\DataSetIsEqual;
 use PHPUnit\DbUnit\Constraint\TableIsEqual;
 use PHPUnit\DbUnit\Constraint\TableRowCount;
@@ -49,8 +48,8 @@ trait TestCaseTrait
     /**
      * Asserts that two given datasets are equal.
      *
-     * @param ITable $expected
-     * @param ITable $actual
+     * @param IDataSet $expected
+     * @param IDataSet $actual
      * @param string $message
      */
     public static function assertDataSetsEqual(IDataSet $expected, IDataSet $actual, $message = ''): void
@@ -193,12 +192,12 @@ trait TestCaseTrait
      * Creates a new DefaultDatabaseConnection using the given PDO connection
      * and database schema name.
      *
-     * @param PDO    $connection
+     * @param \PDO    $connection
      * @param string $schema
      *
      * @return DefaultConnection
      */
-    protected function createDefaultDBConnection(PDO $connection, $schema = '')
+    protected function createDefaultDBConnection(\PDO $connection, $schema = ''): DefaultConnection
     {
         return new DefaultConnection($connection, $schema);
     }

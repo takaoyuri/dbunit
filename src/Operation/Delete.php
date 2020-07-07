@@ -23,21 +23,19 @@ class Delete extends RowBased
 
     protected $iteratorDirection = self::ITERATOR_TYPE_REVERSE;
 
-    protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection)
+    protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection): string
     {
         $keys = $databaseTableMetaData->getPrimaryKeys();
 
         $whereStatement = 'WHERE ' . \implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
 
-        $query = "
+        return "
             DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
             {$whereStatement}
         ";
-
-        return $query;
     }
 
-    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row)
+    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row): array
     {
         $args = [];
 

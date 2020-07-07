@@ -10,8 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
-use SimpleXMLElement;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Provides a basic functionality for dbunit tables
@@ -31,7 +30,7 @@ class AbstractTable implements ITable
     protected $data;
 
     /**
-     * @var null|ITable
+     * @var ITable|null
      */
     private $other;
 
@@ -65,7 +64,7 @@ class AbstractTable implements ITable
             foreach ($columns as $columnName) {
                 if ($this->other) {
                     try {
-                        if ($this->getValue($i, $columnName) != $this->other->getValue($i, $columnName)) {
+                        if ($this->getValue($i, $columnName) !== $this->other->getValue($i, $columnName)) {
                             $values[] = \sprintf(
                                 '%s != actual %s',
                                 \var_export($this->getValue($i, $columnName), true),
@@ -93,7 +92,7 @@ class AbstractTable implements ITable
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData()
+    public function getTableMetaData(): ITableMetadata
     {
         return $this->tableMetaData;
     }
@@ -103,7 +102,7 @@ class AbstractTable implements ITable
      *
      * @return int
      */
-    public function getRowCount()
+    public function getRowCount(): int
     {
         return \count($this->data);
     }
@@ -112,23 +111,20 @@ class AbstractTable implements ITable
      * Returns the value for the given column on the given row.
      *
      * @param int $row
-     * @param int $column
-     *
-     * @todo reorganize this function to throw the exception first.
+     * @param string $column
+     * @return mixed|string
      */
-    public function getValue($row, $column)
+    public function getValue(int $row, string $column)
     {
-        if (isset($this->data[$row][$column])) {
-            $value = $this->data[$row][$column];
-
-            return ($value instanceof SimpleXMLElement) ? (string) $value : $value;
+        if (!isset($this->data[$row]) || !\in_array($column, $this->getTableMetaData()->getColumns(), true)) {
+            throw new InvalidArgumentException(
+                "The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}"
+            );
         }
 
-        if (!\in_array($column, $this->getTableMetaData()->getColumns()) || $this->getRowCount() <= $row) {
-            throw new InvalidArgumentException("The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}");
-        }
+        $value = $this->data[$row][$column];
 
-        return;
+        return $value instanceof \SimpleXMLElement ? (string) $value : $value;
     }
 
     /**
@@ -138,41 +134,38 @@ class AbstractTable implements ITable
      *
      * @return array
      */
-    public function getRow($row)
+    public function getRow(int $row): array
     {
-        if (isset($this->data[$row])) {
-            return $this->data[$row];
+        if (!isset($this->data[$row])) {
+            throw new InvalidArgumentException(
+                "The given row ({$row}) does not exist in table {$this->getTableMetaData()->getTableName()}"
+            );
         }
 
-        if ($this->getRowCount() <= $row) {
-            throw new InvalidArgumentException("The given row ({$row}) does not exist in table {$this->getTableMetaData()->getTableName()}");
-        }
-
-        return;
+        return $this->data[$row];
     }
 
     /**
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     * @return bool
      */
-    public function matches(ITable $other)
+    public function matches(ITable $other): bool
     {
-        $thisMetaData  = $this->getTableMetaData();
+        $thisMetaData = $this->getTableMetaData();
         $otherMetaData = $other->getTableMetaData();
 
-        if (!$thisMetaData->matches($otherMetaData) ||
-            $this->getRowCount() != $other->getRowCount()
-        ) {
+        if (!$thisMetaData->matches($otherMetaData) || $this->getRowCount() !== $other->getRowCount()) {
             return false;
         }
 
-        $columns  = $thisMetaData->getColumns();
+        $columns = $thisMetaData->getColumns();
         $rowCount = $this->getRowCount();
 
         for ($i = 0; $i < $rowCount; $i++) {
             foreach ($columns as $columnName) {
-                $thisValue  = $this->getValue($i, $columnName);
+                $thisValue = $this->getValue($i, $columnName);
                 $otherValue = $other->getValue($i, $columnName);
 
                 if (\is_numeric($thisValue) && \is_numeric($otherValue)) {
@@ -199,9 +192,9 @@ class AbstractTable implements ITable
      *
      * @return bool
      */
-    public function assertContainsRow(array $row)
+    public function assertContainsRow(array $row): bool
     {
-        return \in_array($row, $this->data);
+        return \in_array($row, $this->data, true);
     }
 
     /**
@@ -216,18 +209,18 @@ class AbstractTable implements ITable
         $this->tableMetaData = $tableMetaData;
     }
 
-    protected function rowToString(array $row)
+    protected function rowToString(array $row): string
     {
         $rowString = '';
 
         foreach ($row as $value) {
-            if (null === $value) {
+            if ($value === null) {
                 $value = 'NULL';
             }
 
             $value_str = \mb_substr($value, 0, 20);
 
-            // make str_pad act in multibyte manner
+            // make str_pad act in multi byte manner
             $correction = \strlen($value_str) - \mb_strlen($value_str);
             $rowString .= '| ' . \str_pad($value_str, 20 + $correction, ' ', STR_PAD_BOTH) . ' ';
         }

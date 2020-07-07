@@ -10,8 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
-use function array_keys;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * Implements the basic functionality of data sets using a PHP array.
@@ -45,11 +44,11 @@ class ArrayDataSet extends AbstractDataSet
             $columns = [];
 
             if (isset($rows[0])) {
-                $columns = array_keys($rows[0]);
+                $columns = \array_keys($rows[0]);
             }
 
             $metaData = new DefaultTableMetadata($tableName, $columns);
-            $table    = new DefaultTable($metaData);
+            $table = new DefaultTable($metaData);
 
             foreach ($rows as $row) {
                 $table->addRow($row);
@@ -58,16 +57,16 @@ class ArrayDataSet extends AbstractDataSet
         }
     }
 
-    public function getTable($tableName)
+    public function getTable(string $tableName): ITable
     {
         if (!isset($this->tables[$tableName])) {
-            throw new InvalidArgumentException("$tableName is not a table in the current database.");
+            throw new InvalidArgumentException("{$tableName} is not a table in the current database.");
         }
 
         return $this->tables[$tableName];
     }
 
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         return new DefaultTableIterator($this->tables, $reverse);
     }

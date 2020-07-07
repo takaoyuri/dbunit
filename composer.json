@@ -32,9 +32,9 @@
         "php-coveralls/php-coveralls": "^2.2"
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "PHPUnit\\DbUnit\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

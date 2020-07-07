@@ -33,18 +33,14 @@ class ReplacementDataSet extends AbstractDataSet
     protected $subStrReplacements;
 
     /**
-     * Creates a new replacement dataset
-     *
-     * You can pass in any data set that implements PHPUnit_Extensions_Database_DataSet_IDataSet
-     *
-     * @param string $delimiter
-     * @param string $enclosure
-     * @param string $escape
+     * @param IDataSet $dataSet
+     * @param array $fullReplacements
+     * @param array $subStrReplacements
      */
     public function __construct(IDataSet $dataSet, array $fullReplacements = [], array $subStrReplacements = [])
     {
-        $this->dataSet            = $dataSet;
-        $this->fullReplacements   = $fullReplacements;
+        $this->dataSet = $dataSet;
+        $this->fullReplacements = $fullReplacements;
         $this->subStrReplacements = $subStrReplacements;
     }
 
@@ -64,7 +60,7 @@ class ReplacementDataSet extends AbstractDataSet
     /**
      * Adds a new substr replacement
      *
-     * Substr replacements will replace all occurances of the substr in every column
+     * Substr replacements will replace all occupancies of the substr in every column
      *
      * @param string $value
      * @param string $replacement
@@ -82,7 +78,7 @@ class ReplacementDataSet extends AbstractDataSet
      *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
         $innerIterator = $reverse ? $this->dataSet->getReverseIterator() : $this->dataSet->getIterator();
 

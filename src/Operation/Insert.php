@@ -21,7 +21,7 @@ class Insert extends RowBased
 {
     protected $operationName = 'INSERT';
 
-    protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection)
+    protected function buildOperationQuery(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection): string
     {
         $columnCount = \count($table->getTableMetaData()->getColumns());
 
@@ -36,20 +36,18 @@ class Insert extends RowBased
 
             $columns = \substr($columns, 0, -2);
 
-            $query = "
+            return "
                 INSERT INTO {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
                 ({$columns})
                 VALUES
                 ({$placeHolders})
             ";
-
-            return $query;
         }
 
         return false;
     }
 
-    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row)
+    protected function buildOperationArguments(ITableMetadata $databaseTableMetaData, ITable $table, $row): array
     {
         $args = [];
 
@@ -60,12 +58,8 @@ class Insert extends RowBased
         return $args;
     }
 
-    protected function disablePrimaryKeys(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection)
+    protected function disablePrimaryKeys(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection): bool
     {
-        if (\count($databaseTableMetaData->getPrimaryKeys())) {
-            return true;
-        }
-
-        return false;
+        return \count($databaseTableMetaData->getPrimaryKeys()) > 0;
     }
 }

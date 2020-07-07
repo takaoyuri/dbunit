@@ -17,7 +17,7 @@ use Symfony;
  */
 class SymfonyYamlParser implements IYamlParser
 {
-    public function parseYaml($yamlFile)
+    public function parseYaml(string $yamlFile): array
     {
         return Symfony\Component\Yaml\Yaml::parse(\file_get_contents($yamlFile));
     }

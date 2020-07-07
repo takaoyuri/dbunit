@@ -60,7 +60,7 @@ class Filter extends AbstractDataSet
      * to the special string '*'.
      *
      * @param IDataSet $originalDataSet
-     * @param array    $excludeTables   @deprecated use set* methods instead
+     * @param array $excludeTables @deprecated use set* methods instead
      */
     public function __construct(IDataSet $originalDataSet, array $excludeTables = [])
     {
@@ -71,10 +71,10 @@ class Filter extends AbstractDataSet
         foreach ($excludeTables as $tableName => $values) {
             if (\is_array($values)) {
                 $this->setExcludeColumnsForTable($tableName, $values);
-            } elseif ($values == '*') {
+            } elseif ($values === '*') {
                 $tables[] = $tableName;
             } else {
-                $this->setExcludeColumnsForTable($tableName, (array) $values);
+                $this->setExcludeColumnsForTable($tableName, (array)$values);
             }
         }
 
@@ -105,7 +105,7 @@ class Filter extends AbstractDataSet
      * Adds columns to include in the data set for the given table.
      *
      * @param string $table
-     * @param array  $columns
+     * @param array $columns
      */
     public function setIncludeColumnsForTable($table, array $columns): void
     {
@@ -116,7 +116,7 @@ class Filter extends AbstractDataSet
      * Adds columns to include in the data set for the given table.
      *
      * @param string $table
-     * @param array  $columns
+     * @param array $columns
      */
     public function setExcludeColumnsForTable($table, array $columns): void
     {
@@ -131,38 +131,37 @@ class Filter extends AbstractDataSet
      *
      * @return ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator(bool $reverse = false): ITableIterator
     {
-        $original_tables = $this->originalDataSet->getIterator($reverse);
-        $new_tables      = [];
+        $originalTables = $this->originalDataSet->getReverseIterator();
+        $newTables = [];
 
-        foreach ($original_tables as $table) {
-            /* @var $table ITable */
+        foreach ($originalTables as $table) {
             $tableName = $table->getTableMetaData()->getTableName();
 
-            if ((!\in_array($tableName, $this->includeTables) && !empty($this->includeTables)) ||
-                \in_array($tableName, $this->excludeTables)
+            if ((!\in_array($tableName, $this->includeTables, true) && !empty($this->includeTables)) ||
+                \in_array($tableName, $this->excludeTables, true)
             ) {
                 continue;
             }
 
             if (!empty($this->excludeColumns[$tableName]) || !empty($this->includeColumns[$tableName])) {
-                $new_table = new TableFilter($table);
+                $newTable = new TableFilter($table);
 
                 if (!empty($this->includeColumns[$tableName])) {
-                    $new_table->addIncludeColumns($this->includeColumns[$tableName]);
+                    $newTable->addIncludeColumns($this->includeColumns[$tableName]);
                 }
 
                 if (!empty($this->excludeColumns[$tableName])) {
-                    $new_table->addExcludeColumns($this->excludeColumns[$tableName]);
+                    $newTable->addExcludeColumns($this->excludeColumns[$tableName]);
                 }
 
-                $new_tables[] = $new_table;
+                $newTables[] = $newTable;
             } else {
-                $new_tables[] = $table;
+                $newTables[] = $table;
             }
         }
 
-        return new DefaultTableIterator($new_tables);
+        return new DefaultTableIterator($newTables);
     }
 }

@@ -13,11 +13,6 @@ namespace PHPUnit\DbUnit\Database;
 use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableIterator;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
-use function current;
-use function end;
-use function next;
-use function prev;
-use function reset;
 
 /**
  * Provides iterative access to tables from a database instance.
@@ -46,11 +41,11 @@ class TableIterator implements ITableIterator
      */
     protected $dataSet;
 
-    public function __construct($tableNames, DataSet $dataSet, $reverse = false)
+    public function __construct(array $tableNames, DataSet $dataSet, bool $reverse = false)
     {
         $this->tableNames = $tableNames;
-        $this->dataSet    = $dataSet;
-        $this->reverse    = $reverse;
+        $this->dataSet = $dataSet;
+        $this->reverse = $reverse;
 
         $this->rewind();
     }
@@ -60,7 +55,7 @@ class TableIterator implements ITableIterator
      *
      * @return ITable
      */
-    public function getTable()
+    public function getTable(): ITable
     {
         return $this->current();
     }
@@ -70,7 +65,7 @@ class TableIterator implements ITableIterator
      *
      * @return ITableMetadata
      */
-    public function getTableMetaData()
+    public function getTableMetaData(): ITableMetadata
     {
         return $this->current()->getTableMetaData();
     }
@@ -80,9 +75,9 @@ class TableIterator implements ITableIterator
      *
      * @return ITable
      */
-    public function current()
+    public function current(): ITable
     {
-        $tableName = current($this->tableNames);
+        $tableName = \current($this->tableNames);
 
         return $this->dataSet->getTable($tableName);
     }
@@ -103,9 +98,9 @@ class TableIterator implements ITableIterator
     public function next(): void
     {
         if ($this->reverse) {
-            prev($this->tableNames);
+            \prev($this->tableNames);
         } else {
-            next($this->tableNames);
+            \next($this->tableNames);
         }
     }
 
@@ -115,9 +110,9 @@ class TableIterator implements ITableIterator
     public function rewind(): void
     {
         if ($this->reverse) {
-            end($this->tableNames);
+            \end($this->tableNames);
         } else {
-            reset($this->tableNames);
+            \reset($this->tableNames);
         }
     }
 
@@ -128,6 +123,6 @@ class TableIterator implements ITableIterator
      */
     public function valid(): bool
     {
-        return current($this->tableNames) !== false;
+        return \current($this->tableNames) !== false;
     }
 }

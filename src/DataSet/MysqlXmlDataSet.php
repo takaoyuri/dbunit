@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\RuntimeException;
+use PHPUnit\DbUnit\Exception\RuntimeException;
 
 /**
  * Data set implementation for the output of mysqldump --xml.

@@ -10,7 +10,7 @@
 
 namespace PHPUnit\DbUnit\DataSet;
 
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * A table decorator that allows filtering out table columns from results.
@@ -44,7 +44,7 @@ class TableFilter extends AbstractTable
      *
      * @return array
      */
-    public function getRow($row)
+    public function getRow(int $row): array
     {
         $this->loadData();
 
@@ -56,7 +56,7 @@ class TableFilter extends AbstractTable
      *
      * @return int
      */
-    public function getRowCount()
+    public function getRowCount(): int
     {
         $this->loadData();
 
@@ -67,15 +67,17 @@ class TableFilter extends AbstractTable
      * Returns the value for the given column on the given row.
      *
      * @param int $row
-     * @param int $column
+     * @param string $column
      */
-    public function getValue($row, $column)
+    public function getValue(int $row, string $column)
     {
-        if (\in_array($column, $this->getTableMetaData()->getColumns())) {
+        if (\in_array($column, $this->getTableMetaData()->getColumns(), true)) {
             return $this->originalTable->getValue($row, $column);
         }
 
-        throw new InvalidArgumentException("The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}");
+        throw new InvalidArgumentException(
+            "The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}"
+        );
     }
 
     /**
@@ -121,7 +123,7 @@ class TableFilter extends AbstractTable
      *
      * @return bool
      */
-    public function assertContainsRow(array $row)
+    public function assertContainsRow(array $row): bool
     {
         $this->loadData();
 
