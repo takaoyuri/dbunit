@@ -20,11 +20,11 @@
         "issues": "https://github.com/misantron/dbunit/issues"
     },
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^7.3|^7.4",
         "ext-pdo": "*",
         "ext-simplexml": "*",
         "ext-libxml": "*",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^8.5|^9.0",
         "symfony/yaml": "^4.4|^5.0"
     },
     "require-dev": {
