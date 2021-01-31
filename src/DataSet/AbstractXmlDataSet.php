@@ -33,11 +33,17 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
      */
     public function __construct(string $xmlFile)
     {
+        if (!\extension_loaded('dom')) {
+            throw new \LogicException('Extension DOM is required.');
+        }
+
         if (!\is_file($xmlFile)) {
             throw new InvalidArgumentException("Could not find xml file: {$xmlFile}");
         }
 
-        $libxmlEntityLoader = \libxml_disable_entity_loader(false);
+        if (\LIBXML_VERSION < 20900) {
+            $libxmlEntityLoader = \libxml_disable_entity_loader(false);
+        }
         $libxmlErrorReporting = \libxml_use_internal_errors(true);
         $this->xmlFileContents = \simplexml_load_string(
             \file_get_contents($xmlFile), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_PARSEHUGE
@@ -55,7 +61,9 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
 
         \libxml_clear_errors();
         \libxml_use_internal_errors($libxmlErrorReporting);
-        \libxml_disable_entity_loader($libxmlEntityLoader);
+        if (\LIBXML_VERSION < 20900) {
+            \libxml_disable_entity_loader($libxmlEntityLoader);
+        }
 
         $tableColumns = [];
         $tableValues = [];
