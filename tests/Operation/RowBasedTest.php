@@ -111,38 +111,29 @@ class RowBasedTest extends TestCase
             ['buildOperationQuery', 'buildOperationArguments']
         );
 
-        $mockOperation->expects($this->at(0))
+        $mockOperation
+            ->expects(self::exactly(2))
             ->method('buildOperationQuery')
-            ->with($connection->createDataSet()->getTableMetaData('table1'), $table1)
-            ->willReturn(
-                'INSERT INTO table1 (table1_id, column1, column2, column3, column4) VALUES (?, ?, ?, ?, ?)'
-            );
-
-        $mockOperation->expects($this->at(1))
-            ->method('buildOperationArguments')
-            ->with($connection->createDataSet()->getTableMetaData('table1'), $table1, 0)
-            ->willReturn(
-                [1, 'foo', 42, 4.2, 'bar']
-            );
-
-        $mockOperation->expects($this->at(2))
-            ->method('buildOperationArguments')
-            ->with($connection->createDataSet()->getTableMetaData('table1'), $table1, 1)
-            ->willReturn(
-                [2, 'qwerty', 23, 2.3, 'dvorak']
-            );
-
-        $mockOperation->expects($this->at(3))
-            ->method('buildOperationQuery')
-            ->with($connection->createDataSet()->getTableMetaData('table2'), $table2)
-            ->willReturn(
+            ->withConsecutive(
+                [$connection->createDataSet()->getTableMetaData('table1'), $table1],
+                [$connection->createDataSet()->getTableMetaData('table2'), $table2]
+            )
+            ->willReturnOnConsecutiveCalls(
+                'INSERT INTO table1 (table1_id, column1, column2, column3, column4) VALUES (?, ?, ?, ?, ?)',
                 'INSERT INTO table2 (table2_id, column5, column6, column7, column8) VALUES (?, ?, ?, ?, ?)'
             );
 
-        $mockOperation->expects($this->at(4))
+        $mockOperation
+            ->expects(self::exactly(3))
             ->method('buildOperationArguments')
-            ->with($connection->createDataSet()->getTableMetaData('table2'), $table2, 0)
-            ->willReturn(
+            ->withConsecutive(
+                [$connection->createDataSet()->getTableMetaData('table1'), $table1, 0],
+                [$connection->createDataSet()->getTableMetaData('table1'), $table1, 1],
+                [$connection->createDataSet()->getTableMetaData('table2'), $table2, 0]
+            )
+            ->willReturnOnConsecutiveCalls(
+                [1, 'foo', 42, 4.2, 'bar'],
+                [2, 'qwerty', 23, 2.3, 'dvorak'],
                 [1, 'fdyhkn', 64, 4568.64, 'hkladfg']
             );
 
