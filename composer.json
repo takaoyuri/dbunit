@@ -20,7 +20,7 @@
         "issues": "https://github.com/misantron/dbunit/issues"
     },
     "require": {
-        "php": "^7.2|^7.3|^7.4",
+        "php": "^7.2||^8.0",
         "ext-pdo": "*",
         "ext-simplexml": "*",
         "ext-libxml": "*",
