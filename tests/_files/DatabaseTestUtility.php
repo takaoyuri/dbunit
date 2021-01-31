@@ -37,15 +37,25 @@ class DatabaseTestUtility
     {
         if (self::$mySQLConnection === null) {
             self::$mySQLConnection = new PDO(
-                PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN . ';port=' . getenv('MYSQL_DB_PORT'),
-                PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_USERNAME,
-                PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_PASSWORD
+                self::buildMysqlDSN(),
+                getenv('MYSQL_DB_USER'),
+                getenv('MYSQL_DB_PASSWORD')
             );
 
             self::setUpMySQLDatabase(self::$mySQLConnection);
         }
 
         return self::$mySQLConnection;
+    }
+
+    private static function buildMysqlDSN(): string
+    {
+        return sprintf(
+            'mysql:host=%s;dbname=%s;port=%s',
+            getenv('MYSQL_DB_HOST'),
+            getenv('MYSQL_DB_NAME'),
+            getenv('MYSQL_DB_PORT')
+        );
     }
 
     protected static function setUpDatabase(PDO $connection): void

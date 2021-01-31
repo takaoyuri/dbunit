@@ -14,11 +14,11 @@
     </testsuite>
 
     <php>
+        <env name="MYSQL_DB_HOST" value="127.0.0.1"/>
         <env name="MYSQL_DB_PORT" value="3306"/>
-        <const name="PHPUNIT_TESTSUITE" value="true"/>
-        <const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN" value="mysql:host=127.0.0.1;dbname=dbunit;port=3306"/>
-        <const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_USERNAME" value="root"/>
-        <const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_PASSWORD" value=""/>
+        <env name="MYSQL_DB_NAME" value="dbunit"/>
+        <env name="MYSQL_DB_USER" value="root"/>
+        <env name="MYSQL_DB_PASSWORD" value=""/>
     </php>
 
     <filter>

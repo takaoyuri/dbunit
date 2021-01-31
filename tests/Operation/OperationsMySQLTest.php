@@ -28,7 +28,7 @@ class OperationsMySQLTest extends TestCase
             $this->markTestSkipped('pdo_mysql is required to run this test.');
         }
 
-        if (!defined('PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN')) {
+        if (getenv('MYSQL_DB_HOST') === false) {
             $this->markTestSkipped('No MySQL server configured for this test.');
         }
 
