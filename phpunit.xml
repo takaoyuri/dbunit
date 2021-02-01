@@ -5,12 +5,12 @@
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
-         verbose="true">
+         verbose="true"
+         colors="true">
+
     <testsuite name="all">
-        <directory>tests/Constraint</directory>
-        <directory>tests/DataSet</directory>
-        <directory>tests/Operation</directory>
-        <directory>tests/DB</directory>
+        <directory>tests/</directory>
+        <exclude>tests/_files/*</exclude>
     </testsuite>
 
     <php>
@@ -21,9 +21,9 @@
         <env name="MYSQL_DB_PASSWORD" value=""/>
     </php>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>
