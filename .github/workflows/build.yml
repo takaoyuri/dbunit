@@ -68,13 +68,11 @@ jobs:
           restore-keys: 80-composer-
       - name: Install dependencies
         run: composer install --prefer-dist
-      - name: Create report directory
-        run: |
-          mkdir build
-          chmod +w build
       - name: Run PHPUnit with coverage
-        run: vendor/bin/phpunit --testsuite=unit --colors=always --coverage-clover=build/clover.xml
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --testsuite=unit --colors=always --coverage-clover=build/logs/clover.xml
       - name: Upload coverage report
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: vendor/bin/php-coveralls --coverage_clover=build/clover.xml --json_path=build -v
+        run: vendor/bin/php-coveralls -v
