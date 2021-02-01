@@ -68,8 +68,8 @@ jobs:
           restore-keys: 80-composer-
       - name: Install dependencies
         run: composer install --prefer-dist
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit --colors=always --coverage-clover=coverage.clover
+      - name: Run PHPUnit with coverage
+        run: vendor/bin/phpunit --testsuite=unit --colors=always --coverage-clover=coverage.clover
       - name: Upload coverage report
         uses: coverallsapp/github-action@master
         with:
