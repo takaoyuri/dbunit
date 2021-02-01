@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -206,7 +207,9 @@ class ReplacementTable implements ITable
 
         if (isset($value) && \count($this->subStrReplacements)) {
             return \str_replace(
-                \array_keys($this->subStrReplacements), \array_values($this->subStrReplacements), $value
+                \array_keys($this->subStrReplacements),
+                \array_values($this->subStrReplacements),
+                $value
             );
         }
 

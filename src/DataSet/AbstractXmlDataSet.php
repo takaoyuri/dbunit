@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -46,7 +47,9 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
         }
         $libxmlErrorReporting = \libxml_use_internal_errors(true);
         $this->xmlFileContents = \simplexml_load_string(
-            \file_get_contents($xmlFile), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_PARSEHUGE
+            \file_get_contents($xmlFile),
+            'SimpleXMLElement',
+            LIBXML_COMPACT | LIBXML_PARSEHUGE
         );
 
         if (!$this->xmlFileContents) {
