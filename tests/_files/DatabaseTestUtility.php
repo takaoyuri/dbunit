@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -36,7 +37,11 @@ class DatabaseTestUtility
     public static function getMySQLDB()
     {
         if (self::$mySQLConnection === null) {
-            self::$mySQLConnection = new PDO(PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN, PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_USERNAME, PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_PASSWORD);
+            self::$mySQLConnection = new PDO(
+                self::buildMysqlDSN(),
+                getenv('MYSQL_DB_USER'),
+                getenv('MYSQL_DB_PASSWORD')
+            );
 
             self::setUpMySQLDatabase(self::$mySQLConnection);
         }
@@ -44,12 +49,22 @@ class DatabaseTestUtility
         return self::$mySQLConnection;
     }
 
+    private static function buildMysqlDSN(): string
+    {
+        return sprintf(
+            'mysql:host=%s;dbname=%s;port=%s',
+            getenv('MYSQL_DB_HOST'),
+            getenv('MYSQL_DB_NAME'),
+            getenv('MYSQL_DB_PORT')
+        );
+    }
+
     protected static function setUpDatabase(PDO $connection): void
     {
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table1 (
+            'CREATE TABLE IF NOT EXISTS table1 (
             table1_id INTEGER PRIMARY KEY AUTOINCREMENT,
             column1 VARCHAR(20),
             column2 INT(10),
@@ -59,7 +74,7 @@ class DatabaseTestUtility
         );
 
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table2 (
+            'CREATE TABLE IF NOT EXISTS table2 (
             table2_id INTEGER PRIMARY KEY AUTOINCREMENT,
             column5 VARCHAR(20),
             column6 INT(10),
@@ -69,7 +84,7 @@ class DatabaseTestUtility
         );
 
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table3 (
+            'CREATE TABLE IF NOT EXISTS table3 (
             table3_id INTEGER PRIMARY KEY AUTOINCREMENT,
             column9 VARCHAR(20),
             column10 INT(10),
@@ -92,7 +107,7 @@ class DatabaseTestUtility
     protected static function setUpMySqlDatabase(PDO $connection): void
     {
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table1 (
+            'CREATE TABLE IF NOT EXISTS table1 (
             table1_id INTEGER AUTO_INCREMENT,
             column1 VARCHAR(20),
             column2 INT(10),
@@ -104,7 +119,7 @@ class DatabaseTestUtility
         );
 
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table2 (
+            'CREATE TABLE IF NOT EXISTS table2 (
             table2_id INTEGER AUTO_INCREMENT,
             table1_id INTEGER,
             column5 VARCHAR(20),
@@ -118,7 +133,7 @@ class DatabaseTestUtility
         );
 
         $connection->exec(
-          'CREATE TABLE IF NOT EXISTS table3 (
+            'CREATE TABLE IF NOT EXISTS table3 (
             table3_id INTEGER AUTO_INCREMENT,
             table2_id INTEGER,
             column9 VARCHAR(20),

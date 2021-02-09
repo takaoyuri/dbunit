@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -61,7 +62,7 @@ class QueryTableTest extends TestCase
 
         $conn = new PDO('sqlite::memory:');
         $conn->exec(
-          'CREATE TABLE IF NOT EXISTS table1 (
+            'CREATE TABLE IF NOT EXISTS table1 (
             table1_id INTEGER PRIMARY KEY AUTOINCREMENT,
             column1 VARCHAR(20),
             column2 INT(10),

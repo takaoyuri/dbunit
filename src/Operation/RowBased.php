@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -62,7 +63,11 @@ abstract class RowBased implements Operation
             if ($query === false) {
                 if ($table->getRowCount() > 0) {
                     throw new Exception(
-                        $this->operationName, '', [], $table, 'Rows requested for insert, but no columns provided!'
+                        $this->operationName,
+                        '',
+                        [],
+                        $table,
+                        'Rows requested for insert, but no columns provided!'
                     );
                 }
 

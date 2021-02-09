@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of DbUnit.
  *
@@ -8,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\DB;
+namespace PHPUnit\DbUnit\Tests\Database;
 
 use PDO;
 use PHPUnit\DbUnit\Database\DefaultConnection;

@@ -5,24 +5,32 @@
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
-         verbose="true">
-    <testsuite name="all">
-        <directory>tests/Constraint</directory>
-        <directory>tests/DataSet</directory>
-        <directory>tests/Operation</directory>
-        <directory>tests/DB</directory>
-    </testsuite>
+         verbose="true"
+         colors="true">
+
+    <testsuites>
+        <testsuite name="all">
+            <directory>tests/</directory>
+            <exclude>tests/_files/*</exclude>
+        </testsuite>
+        <testsuite name="unit">
+            <directory>tests/</directory>
+            <exclude>tests/_files/*</exclude>
+            <exclude>tests/Operation/OperationsMySQLTest.php</exclude>
+        </testsuite>
+    </testsuites>
 
     <php>
-        <const name="PHPUNIT_TESTSUITE" value="true"/>
-        <!--<const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_DSN" value="mysql:host=127.0.0.1;dbname=phpunit_tests;port=3306"/>-->
-        <!--<const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_USERNAME" value="root"/>-->
-        <!--<const name="PHPUNIT_TESTSUITE_EXTENSION_DATABASE_MYSQL_PASSWORD" value=""/>-->
+        <env name="MYSQL_DB_HOST" value="127.0.0.1"/>
+        <env name="MYSQL_DB_PORT" value="3306"/>
+        <env name="MYSQL_DB_NAME" value="dbunit"/>
+        <env name="MYSQL_DB_USER" value="root"/>
+        <env name="MYSQL_DB_PASSWORD" value=""/>
     </php>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>
