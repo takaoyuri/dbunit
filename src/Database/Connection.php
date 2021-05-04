@@ -113,5 +113,5 @@ interface Connection
      *
      * @param string $tableName
      */
-    public function enablePrimaryKeys(string$tableName): void;
+    public function enablePrimaryKeys(string $tableName): void;
 }
