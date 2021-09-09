@@ -13,7 +13,7 @@ namespace PHPUnit\DbUnit\Operation;
 
 use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\DataSet\IDataSet;
-use PHPUnit\DbUnit\InvalidArgumentException;
+use PHPUnit\DbUnit\Exception\InvalidArgumentException;
 
 /**
  * This class facilitates combining database operations. To create a composite
