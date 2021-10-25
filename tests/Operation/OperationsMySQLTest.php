@@ -25,7 +25,7 @@ class OperationsMySQLTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!extension_loaded('pdo_mysql')) {
+        if (!\extension_loaded('pdo_mysql')) {
             $this->markTestSkipped('pdo_mysql is required to run this test.');
         }
 

@@ -101,6 +101,7 @@ abstract class AbstractDataSet implements IDataSet
      * Asserts that the given data set matches this data set.
      *
      * @param IDataSet $other
+     *
      * @return bool
      */
     public function matches(IDataSet $other): bool
@@ -108,8 +109,8 @@ abstract class AbstractDataSet implements IDataSet
         $thisTableNames = $this->getTableNames();
         $otherTableNames = $other->getTableNames();
 
-        \sort($thisTableNames);
-        \sort($otherTableNames);
+        sort($thisTableNames);
+        sort($otherTableNames);
 
         if ($thisTableNames !== $otherTableNames) {
             return false;
@@ -131,6 +132,7 @@ abstract class AbstractDataSet implements IDataSet
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
+     *
      * @return ITableIterator
      */
     abstract protected function createIterator(bool $reverse = false): ITableIterator;

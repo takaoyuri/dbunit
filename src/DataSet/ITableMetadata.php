@@ -41,7 +41,8 @@ interface ITableMetadata
      * Asserts that the given tableMetaData matches this tableMetaData.
      *
      * @param ITableMetadata $other
+     *
      * @return bool
      */
-    public function matches(ITableMetadata $other): bool;
+    public function matches(self $other): bool;
 }

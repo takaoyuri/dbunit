@@ -106,6 +106,7 @@ abstract class RowBased implements Operation
      * @param ITableMetadata $databaseTableMetaData
      * @param ITable $table
      * @param Connection $connection
+     *
      * @return bool|string String containing the query or FALSE if a valid query cannot be constructed
      */
     abstract protected function buildOperationQuery(
@@ -122,6 +123,7 @@ abstract class RowBased implements Operation
      * @param ITableMetadata $databaseTableMetaData
      * @param ITable $table
      * @param Connection $connection
+     *
      * @return bool
      */
     protected function disablePrimaryKeys(ITableMetadata $databaseTableMetaData, ITable $table, Connection $connection): bool

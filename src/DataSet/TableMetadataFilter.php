@@ -62,11 +62,11 @@ class TableMetadataFilter extends AbstractTableMetadata
     public function getColumns(): array
     {
         if (!empty($this->includeColumns)) {
-            return \array_values(\array_intersect($this->originalMetaData->getColumns(), $this->includeColumns));
+            return array_values(array_intersect($this->originalMetaData->getColumns(), $this->includeColumns));
         }
 
         if (!empty($this->excludeColumns)) {
-            return \array_values(\array_diff($this->originalMetaData->getColumns(), $this->excludeColumns));
+            return array_values(array_diff($this->originalMetaData->getColumns(), $this->excludeColumns));
         }
 
         return $this->originalMetaData->getColumns();
@@ -99,7 +99,7 @@ class TableMetadataFilter extends AbstractTableMetadata
      */
     public function addIncludeColumns(array $includeColumns): void
     {
-        $this->includeColumns = \array_unique(\array_merge($this->includeColumns, $includeColumns));
+        $this->includeColumns = array_unique(array_merge($this->includeColumns, $includeColumns));
     }
 
     /**
@@ -117,7 +117,7 @@ class TableMetadataFilter extends AbstractTableMetadata
      */
     public function addExcludeColumns(array $excludeColumns): void
     {
-        $this->excludeColumns = \array_unique(\array_merge($this->excludeColumns, $excludeColumns));
+        $this->excludeColumns = array_unique(array_merge($this->excludeColumns, $excludeColumns));
     }
 
     /**

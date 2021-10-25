@@ -51,11 +51,11 @@ class ReplacementTable implements ITable
     {
         $columns = $this->getTableMetaData()->getColumns();
 
-        $lineSeparator = \str_repeat('+----------------------', \count($columns)) . "+\n";
+        $lineSeparator = str_repeat('+----------------------', \count($columns)) . "+\n";
         $lineLength = \strlen($lineSeparator) - 1;
 
         $tableString = $lineSeparator;
-        $tableString .= '| ' . \str_pad($this->getTableMetaData()->getTableName(), $lineLength - 4, ' ', STR_PAD_RIGHT) . " |\n";
+        $tableString .= '| ' . str_pad($this->getTableMetaData()->getTableName(), $lineLength - 4, ' ', STR_PAD_RIGHT) . " |\n";
         $tableString .= $lineSeparator;
         $tableString .= $this->rowToString($columns);
         $tableString .= $lineSeparator;
@@ -127,6 +127,7 @@ class ReplacementTable implements ITable
      *
      * @param int $row
      * @param string $column
+     *
      * @return mixed
      */
     public function getValue(int $row, string $column)
@@ -145,13 +146,14 @@ class ReplacementTable implements ITable
     {
         $row = $this->table->getRow($row);
 
-        return \array_map([$this, 'getReplacedValue'], $row);
+        return array_map([$this, 'getReplacedValue'], $row);
     }
 
     /**
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     *
      * @return bool
      */
     public function matches(ITable $other): bool
@@ -171,7 +173,7 @@ class ReplacementTable implements ITable
                 $thisValue = $this->getValue($i, $columnName);
                 $otherValue = $other->getValue($i, $columnName);
 
-                if (\is_numeric($thisValue) && \is_numeric($otherValue)) {
+                if (is_numeric($thisValue) && is_numeric($otherValue)) {
                     if ($thisValue != $otherValue) {
                         return false;
                     }
@@ -193,7 +195,7 @@ class ReplacementTable implements ITable
                 $value = 'NULL';
             }
 
-            $rowString .= '| ' . \str_pad(\substr($value, 0, 20), 20, ' ', STR_PAD_BOTH) . ' ';
+            $rowString .= '| ' . str_pad(substr($value, 0, 20), 20, ' ', STR_PAD_BOTH) . ' ';
         }
 
         return $rowString . "|\n";
@@ -201,14 +203,14 @@ class ReplacementTable implements ITable
 
     protected function getReplacedValue($value)
     {
-        if (\is_scalar($value) && \array_key_exists((string) $value, $this->fullReplacements)) {
+        if (is_scalar($value) && \array_key_exists((string) $value, $this->fullReplacements)) {
             return $this->fullReplacements[$value];
         }
 
         if (isset($value) && \count($this->subStrReplacements)) {
-            return \str_replace(
-                \array_keys($this->subStrReplacements),
-                \array_values($this->subStrReplacements),
+            return str_replace(
+                array_keys($this->subStrReplacements),
+                array_values($this->subStrReplacements),
                 $value
             );
         }

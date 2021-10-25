@@ -29,6 +29,7 @@ class Truncate implements Operation
     /**
      * @param Connection $connection
      * @param IDataSet $dataSet
+     *
      * @throws \Throwable
      */
     public function execute(Connection $connection, IDataSet $dataSet): void

@@ -42,12 +42,12 @@ class AbstractTable implements ITable
 
         // if count less than 0 (when table is empty), then set count to 1
         $count         = $count >= 1 ? $count : 1;
-        $lineSeparator = \str_repeat('+----------------------', $count) . "+\n";
+        $lineSeparator = str_repeat('+----------------------', $count) . "+\n";
         $lineLength    = \strlen($lineSeparator) - 1;
 
         $tableString = $lineSeparator;
         $tblName     = $this->getTableMetaData()->getTableName();
-        $tableString .= '| ' . \str_pad(
+        $tableString .= '| ' . str_pad(
             $tblName,
             $lineLength - 4,
             ' ',
@@ -66,10 +66,10 @@ class AbstractTable implements ITable
                 if ($this->other) {
                     try {
                         if ($this->getValue($i, $columnName) !== $this->other->getValue($i, $columnName)) {
-                            $values[] = \sprintf(
+                            $values[] = sprintf(
                                 '%s != actual %s',
-                                \var_export($this->getValue($i, $columnName), true),
-                                \var_export($this->other->getValue($i, $columnName), true)
+                                var_export($this->getValue($i, $columnName), true),
+                                var_export($this->other->getValue($i, $columnName), true)
                             );
                         } else {
                             $values[] = $this->getValue($i, $columnName);
@@ -113,6 +113,7 @@ class AbstractTable implements ITable
      *
      * @param int $row
      * @param string $column
+     *
      * @return mixed|string
      */
     public function getValue(int $row, string $column)
@@ -150,6 +151,7 @@ class AbstractTable implements ITable
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     *
      * @return bool
      */
     public function matches(ITable $other): bool
@@ -169,7 +171,7 @@ class AbstractTable implements ITable
                 $thisValue = $this->getValue($i, $columnName);
                 $otherValue = $other->getValue($i, $columnName);
 
-                if (\is_numeric($thisValue) && \is_numeric($otherValue)) {
+                if (is_numeric($thisValue) && is_numeric($otherValue)) {
                     if ($thisValue != $otherValue) {
                         $this->other = $other;
 
@@ -219,11 +221,11 @@ class AbstractTable implements ITable
                 $value = 'NULL';
             }
 
-            $value_str = \mb_substr($value, 0, 20);
+            $value_str = mb_substr($value, 0, 20);
 
             // make str_pad act in multi byte manner
-            $correction = \strlen($value_str) - \mb_strlen($value_str);
-            $rowString .= '| ' . \str_pad($value_str, 20 + $correction, ' ', STR_PAD_BOTH) . ' ';
+            $correction = \strlen($value_str) - mb_strlen($value_str);
+            $rowString .= '| ' . str_pad($value_str, 20 + $correction, ' ', STR_PAD_BOTH) . ' ';
         }
 
         /** @see https://github.com/sebastianbergmann/dbunit/issues/195 */

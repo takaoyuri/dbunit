@@ -52,7 +52,8 @@ interface IDataSet extends \IteratorAggregate
      * Asserts that the given data set matches this data set.
      *
      * @param IDataSet $other
+     *
      * @return bool
      */
-    public function matches(IDataSet $other): bool;
+    public function matches(self $other): bool;
 }

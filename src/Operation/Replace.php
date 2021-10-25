@@ -88,7 +88,7 @@ class Replace extends RowBased
     ): string {
         $keys = $databaseTableMetaData->getPrimaryKeys();
 
-        $whereStatement = 'WHERE ' . \implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
+        $whereStatement = 'WHERE ' . implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
 
         return "
             SELECT COUNT(*)

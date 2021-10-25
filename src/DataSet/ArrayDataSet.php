@@ -45,7 +45,7 @@ class ArrayDataSet extends AbstractDataSet
             $columns = [];
 
             if (isset($rows[0])) {
-                $columns = \array_keys($rows[0]);
+                $columns = array_keys($rows[0]);
             }
 
             $metaData = new DefaultTableMetadata($tableName, $columns);

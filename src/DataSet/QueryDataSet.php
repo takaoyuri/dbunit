@@ -77,7 +77,7 @@ class QueryDataSet extends AbstractDataSet
      */
     public function getTableNames(): array
     {
-        return \array_keys($this->tables);
+        return array_keys($this->tables);
     }
 
     /**

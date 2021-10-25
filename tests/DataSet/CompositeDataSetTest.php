@@ -49,21 +49,21 @@ class CompositeDataSetTest extends \PHPUnit\Framework\TestCase
             'column1' => 'tgfahgasdf',
             'column2' => 200,
             'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;'
+            'column4' => 'yghkf;a  hahfg8ja h;',
         ]);
         $table1->addRow([
             'table1_id' => 2,
             'column1' => 'hk;afg',
             'column2' => 654,
             'column3' => 46.54,
-            'column4' => '24rwehhads'
+            'column4' => '24rwehhads',
         ]);
         $table1->addRow([
             'table1_id' => 3,
             'column1' => 'ha;gyt',
             'column2' => 462,
             'column3' => 1654.4,
-            'column4' => 'asfgklg'
+            'column4' => 'asfgklg',
         ]);
 
         $table2->addRow([
@@ -71,14 +71,14 @@ class CompositeDataSetTest extends \PHPUnit\Framework\TestCase
             'column5' => 'fhah',
             'column6' => 456,
             'column7' => 46.5,
-            'column8' => 'fsdb, ghfdas'
+            'column8' => 'fsdb, ghfdas',
         ]);
         $table2->addRow([
             'table2_id' => 2,
             'column5' => 'asdhfoih',
             'column6' => 654,
             'column7' => 'blah',
-            'column8' => '43asd "fhgj" sfadh'
+            'column8' => '43asd "fhgj" sfadh',
         ]);
         $table2->addRow([
             'table2_id' => 3,
@@ -86,7 +86,7 @@ class CompositeDataSetTest extends \PHPUnit\Framework\TestCase
             'column6' => 654,
             'column7' => 'blah',
             'column8' => 'thesethasdl
-asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
+asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf',
         ]);
 
         $table3->addRow([
@@ -94,21 +94,21 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column9' => 'sfgsda',
             'column10' => 16,
             'column11' => 45.57,
-            'column12' => 'sdfh .ds,ajfas asdf h'
+            'column12' => 'sdfh .ds,ajfas asdf h',
         ]);
         $table3->addRow([
             'table3_id' => 2,
             'column9' => 'afdstgb',
             'column10' => 41,
             'column11' => 46.645,
-            'column12' => '87yhasdf sadf yah;/a '
+            'column12' => '87yhasdf sadf yah;/a ',
         ]);
         $table3->addRow([
             'table3_id' => 3,
             'column9' => 'gldsf',
             'column10' => 46,
             'column11' => 123.456,
-            'column12' => '0y8hosnd a/df7y olgbjs da'
+            'column12' => '0y8hosnd a/df7y olgbjs da',
         ]);
 
         $this->expectedDataSet1 = new DefaultDataSet([$table1, $table2]);
@@ -134,12 +134,12 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column9' => 'asdasd',
             'column10' => 17,
             'column11' => 42.57,
-            'column12' => 'askldja'
+            'column12' => 'askldja',
         ]);
 
         $compositeDataSet = new CompositeDataSet([
             new DefaultDataSet([$compatibleTable]),
-            $this->expectedDataSet2
+            $this->expectedDataSet2,
         ]);
 
         $this->assertEquals(4, $compositeDataSet->getTable('table3')->getRowCount());
@@ -160,12 +160,12 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column13' => 'asdasda asdasd',
             'column14' => 'aiafsjas asd',
             'column15' => 'asdasdasd',
-            'column16' => 2141
+            'column16' => 2141,
         ]);
 
         new CompositeDataSet([
             $this->expectedDataSet2,
-            new DefaultDataSet([$inCompatibleTable])
+            new DefaultDataSet([$inCompatibleTable]),
         ]);
     }
 
@@ -184,12 +184,12 @@ asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf'
             'column13' => 'asdasda asdasd',
             'column14' => 'aiafsjas asd',
             'column15' => 'asdasdasd',
-            'column16' => 2141
+            'column16' => 2141,
         ]);
 
         new CompositeDataSet([
             new DefaultDataSet([$inCompatibleTable]),
-            $this->expectedDataSet2
+            $this->expectedDataSet2,
         ]);
     }
 }

@@ -51,7 +51,8 @@ interface ITable
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     *
      * @return bool
      */
-    public function matches(ITable $other): bool;
+    public function matches(self $other): bool;
 }

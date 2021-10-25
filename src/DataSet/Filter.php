@@ -89,7 +89,7 @@ class Filter extends AbstractDataSet
      */
     public function addIncludeTables(array $tables): void
     {
-        $this->includeTables = \array_unique(\array_merge($this->includeTables, $tables));
+        $this->includeTables = array_unique(array_merge($this->includeTables, $tables));
     }
 
     /**
@@ -99,7 +99,7 @@ class Filter extends AbstractDataSet
      */
     public function addExcludeTables(array $tables): void
     {
-        $this->excludeTables = \array_unique(\array_merge($this->excludeTables, $tables));
+        $this->excludeTables = array_unique(array_merge($this->excludeTables, $tables));
     }
 
     /**

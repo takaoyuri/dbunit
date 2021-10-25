@@ -67,6 +67,7 @@ interface Connection
      *
      * @param string $tableName
      * @param string $whereClause
+     *
      * @return int
      */
     public function getRowCount(string $tableName, $whereClause = null): int;

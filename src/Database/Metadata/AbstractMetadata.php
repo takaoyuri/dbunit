@@ -29,7 +29,7 @@ abstract class AbstractMetadata implements Metadata
         'sqlite2'  => Sqlite::class,
         'sqlsrv'   => SqlSrv::class,
         'firebird' => Firebird::class,
-        'dblib'    => Dblib::class
+        'dblib'    => Dblib::class,
     ];
 
     /**
@@ -97,7 +97,7 @@ abstract class AbstractMetadata implements Metadata
      */
     public static function registerClassWithDriver($className, $pdoDriver)
     {
-        if (!\class_exists($className)) {
+        if (!class_exists($className)) {
             throw new RuntimeException("Specified class for {$pdoDriver} driver ({$className}) does not exist.");
         }
 
@@ -142,16 +142,16 @@ abstract class AbstractMetadata implements Metadata
      */
     public function quoteSchemaObject($object)
     {
-        $parts       = \explode('.', $object);
+        $parts       = explode('.', $object);
         $quotedParts = [];
 
         foreach ($parts as $part) {
             $quotedParts[] = $this->schemaObjectQuoteChar .
-                \str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar . $this->schemaObjectQuoteChar, $part) .
+                str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar . $this->schemaObjectQuoteChar, $part) .
                 $this->schemaObjectQuoteChar;
         }
 
-        return \implode('.', $quotedParts);
+        return implode('.', $quotedParts);
     }
 
     /**
@@ -165,16 +165,16 @@ abstract class AbstractMetadata implements Metadata
      */
     public function splitTableName($fullTableName)
     {
-        if (($dot = \strpos($fullTableName, '.')) !== false) {
+        if (($dot = strpos($fullTableName, '.')) !== false) {
             return [
-                'schema' => \substr($fullTableName, 0, $dot),
-                'table'  => \substr($fullTableName, $dot + 1)
+                'schema' => substr($fullTableName, 0, $dot),
+                'table'  => substr($fullTableName, $dot + 1),
             ];
         }
 
         return [
                 'schema' => null,
-                'table'  => $fullTableName
+                'table'  => $fullTableName,
             ];
     }
 

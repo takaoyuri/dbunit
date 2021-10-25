@@ -43,6 +43,7 @@ class DataSet extends AbstractDataSet
      *
      * @param ITableMetadata $tableMetaData
      * @param Connection|null $databaseConnection
+     *
      * @return string
      */
     public static function buildTableSelect(ITableMetadata $tableMetaData, Connection $databaseConnection = null): string
@@ -57,9 +58,9 @@ class DataSet extends AbstractDataSet
         $columns = $tableMetaData->getColumns();
 
         if ($databaseConnection) {
-            $columns = \array_map([$databaseConnection, 'quoteSchemaObject'], $columns);
+            $columns = array_map([$databaseConnection, 'quoteSchemaObject'], $columns);
         }
-        $columnList = \implode(', ', $columns);
+        $columnList = implode(', ', $columns);
 
         if ($databaseConnection) {
             $tableName = $databaseConnection->quoteSchemaObject($tableMetaData->getTableName());
@@ -70,11 +71,11 @@ class DataSet extends AbstractDataSet
         $primaryKeys = $tableMetaData->getPrimaryKeys();
 
         if ($databaseConnection) {
-            $primaryKeys = \array_map([$databaseConnection, 'quoteSchemaObject'], $primaryKeys);
+            $primaryKeys = array_map([$databaseConnection, 'quoteSchemaObject'], $primaryKeys);
         }
 
         if (\count($primaryKeys)) {
-            $orderBy = 'ORDER BY ' . \implode(' ASC, ', $primaryKeys) . ' ASC';
+            $orderBy = 'ORDER BY ' . implode(' ASC, ', $primaryKeys) . ' ASC';
         } else {
             $orderBy = '';
         }

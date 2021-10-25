@@ -29,7 +29,7 @@ class OperationsTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!extension_loaded('pdo_sqlite')) {
+        if (!\extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('PDO/SQLite is required to run this test.');
         }
 

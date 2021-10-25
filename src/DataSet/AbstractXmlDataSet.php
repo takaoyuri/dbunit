@@ -38,16 +38,16 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
             throw new \LogicException('Extension DOM is required.');
         }
 
-        if (!\is_file($xmlFile)) {
+        if (!is_file($xmlFile)) {
             throw new InvalidArgumentException("Could not find xml file: {$xmlFile}");
         }
 
         if (\LIBXML_VERSION < 20900) {
-            $libxmlEntityLoader = \libxml_disable_entity_loader(false);
+            $libxmlEntityLoader = libxml_disable_entity_loader(false);
         }
-        $libxmlErrorReporting = \libxml_use_internal_errors(true);
-        $this->xmlFileContents = \simplexml_load_string(
-            \file_get_contents($xmlFile),
+        $libxmlErrorReporting = libxml_use_internal_errors(true);
+        $this->xmlFileContents = simplexml_load_string(
+            file_get_contents($xmlFile),
             'SimpleXMLElement',
             LIBXML_COMPACT | LIBXML_PARSEHUGE
         );
@@ -55,17 +55,17 @@ abstract class AbstractXmlDataSet extends AbstractDataSet
         if (!$this->xmlFileContents) {
             $message = '';
 
-            foreach (\libxml_get_errors() as $error) {
-                $message .= \print_r($error, true);
+            foreach (libxml_get_errors() as $error) {
+                $message .= print_r($error, true);
             }
 
             throw new RuntimeException($message);
         }
 
-        \libxml_clear_errors();
-        \libxml_use_internal_errors($libxmlErrorReporting);
+        libxml_clear_errors();
+        libxml_use_internal_errors($libxmlErrorReporting);
         if (\LIBXML_VERSION < 20900) {
-            \libxml_disable_entity_loader($libxmlEntityLoader);
+            libxml_disable_entity_loader($libxmlEntityLoader);
         }
 
         $tableColumns = [];

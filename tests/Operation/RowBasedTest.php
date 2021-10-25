@@ -31,7 +31,7 @@ class RowBasedTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!extension_loaded('pdo_sqlite')) {
+        if (!\extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('PDO/SQLite is required to run this test.');
         }
 
@@ -82,7 +82,7 @@ class RowBasedTest extends TestCase
             'column1' => 'foo',
             'column2' => 42,
             'column3' => 4.2,
-            'column4' => 'bar'
+            'column4' => 'bar',
         ]);
 
         $table1->addRow([
@@ -90,7 +90,7 @@ class RowBasedTest extends TestCase
             'column1' => 'qwerty',
             'column2' => 23,
             'column3' => 2.3,
-            'column4' => 'dvorak'
+            'column4' => 'dvorak',
         ]);
 
         $table2 = new DefaultTable(
@@ -102,7 +102,7 @@ class RowBasedTest extends TestCase
             'column5' => 'fdyhkn',
             'column6' => 64,
             'column7' => 4568.64,
-            'column8' => 'hkladfg'
+            'column8' => 'hkladfg',
         ]);
 
         $dataSet = new DefaultDataSet([$table1, $table2]);

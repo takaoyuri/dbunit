@@ -27,7 +27,7 @@ class Insert extends RowBased
         $columnCount = \count($table->getTableMetaData()->getColumns());
 
         if ($columnCount > 0) {
-            $placeHolders = \implode(', ', \array_fill(0, $columnCount, '?'));
+            $placeHolders = implode(', ', array_fill(0, $columnCount, '?'));
 
             $columns = '';
 
@@ -35,7 +35,7 @@ class Insert extends RowBased
                 $columns .= $connection->quoteSchemaObject($column) . ', ';
             }
 
-            $columns = \substr($columns, 0, -2);
+            $columns = substr($columns, 0, -2);
 
             return "
                 INSERT INTO {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}

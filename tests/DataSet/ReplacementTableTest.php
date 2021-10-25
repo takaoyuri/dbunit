@@ -40,21 +40,21 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             'column1'   => 'My name is %%%name%%%',
             'column2'   => 200,
             'column3'   => 34.64,
-            'column4'   => 'yghkf;a  hahfg8ja h;'
+            'column4'   => 'yghkf;a  hahfg8ja h;',
         ]);
         $table->addRow([
             'table1_id' => 2,
             'column1'   => 'hk;afg',
             'column2'   => 654,
             'column3'   => 46.54,
-            'column4'   => '24rwehhads'
+            'column4'   => '24rwehhads',
         ]);
         $table->addRow([
             'table1_id' => 3,
             'column1'   => 'ha;gyt',
             'column2'   => 462,
             'column3'   => '[NULL] not really',
-            'column4'   => '[NULL]'
+            'column4'   => '[NULL]',
         ]);
 
         $this->startingTable = $table;
@@ -82,21 +82,21 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             'column1'   => 'My name is %%%name%%%',
             'column2'   => 200,
             'column3'   => 34.64,
-            'column4'   => 'yghkf;a  hahfg8ja h;'
+            'column4'   => 'yghkf;a  hahfg8ja h;',
         ]);
         $table->addRow([
             'table1_id' => 2,
             'column1'   => 'hk;afg',
             'column2'   => 654,
             'column3'   => 46.54,
-            'column4'   => '24rwehhads'
+            'column4'   => '24rwehhads',
         ]);
         $table->addRow([
             'table1_id' => 3,
             'column1'   => 'ha;gyt',
             'column2'   => 462,
             'column3'   => '[NULL] not really',
-            'column4'   => null
+            'column4'   => null,
         ]);
 
         $actual = new ReplacementTable($this->startingTable);
@@ -119,21 +119,21 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             'column1'   => 'My name is Mike Lively',
             'column2'   => 200,
             'column3'   => 34.64,
-            'column4'   => 'yghkf;a  hahfg8ja h;'
+            'column4'   => 'yghkf;a  hahfg8ja h;',
         ]);
         $table->addRow([
             'table1_id' => 2,
             'column1'   => 'hk;afg',
             'column2'   => 654,
             'column3'   => 46.54,
-            'column4'   => '24rwehhads'
+            'column4'   => '24rwehhads',
         ]);
         $table->addRow([
             'table1_id' => 3,
             'column1'   => 'ha;gyt',
             'column2'   => 462,
             'column3'   => '[NULL] not really',
-            'column4'   => '[NULL]'
+            'column4'   => '[NULL]',
         ]);
 
         $actual = new ReplacementTable($this->startingTable);
@@ -156,21 +156,21 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             'column1'   => 'My name is Mike Lively',
             'column2'   => 200,
             'column3'   => 34.64,
-            'column4'   => 'yghkf;a  hahfg8ja h;'
+            'column4'   => 'yghkf;a  hahfg8ja h;',
         ]);
         $table->addRow([
             'table1_id' => 2,
             'column1'   => 'hk;afg',
             'column2'   => 654,
             'column3'   => 46.54,
-            'column4'   => '24rwehhads'
+            'column4'   => '24rwehhads',
         ]);
         $table->addRow([
             'table1_id' => 3,
             'column1'   => 'ha;gyt',
             'column2'   => 462,
             'column3'   => '[NULL] not really',
-            'column4'   => null
+            'column4'   => null,
         ]);
 
         $actual = new ReplacementTable(
@@ -196,7 +196,7 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
                 'column1'   => 'My name is Mike Lively',
                 'column2'   => 200,
                 'column3'   => 34.64,
-                'column4'   => 'yghkf;a  hahfg8ja h;'
+                'column4'   => 'yghkf;a  hahfg8ja h;',
             ],
             $actual->getRow(0)
         );
@@ -207,7 +207,7 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
                 'column1'   => 'ha;gyt',
                 'column2'   => 462,
                 'column3'   => '[NULL] not really',
-                'column4'   => null
+                'column4'   => null,
             ],
             $actual->getRow(2)
         );
@@ -307,7 +307,7 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->willReturn(count($otherColumnValues));
+            ->willReturn(\count($otherColumnValues));
 
         $tableMetaData->expects($this->once())
             ->method('getColumns')
@@ -325,7 +325,7 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
 
         $replacementTable
             ->method('getRowCount')
-            ->willReturn(count($tableColumnValues));
+            ->willReturn(\count($tableColumnValues));
 
         $tableMap = [];
         $otherMap = [];

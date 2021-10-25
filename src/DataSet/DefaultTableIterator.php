@@ -72,7 +72,7 @@ class DefaultTableIterator implements ITableIterator
      */
     public function current()
     {
-        return \current($this->tables);
+        return current($this->tables);
     }
 
     /**
@@ -91,9 +91,9 @@ class DefaultTableIterator implements ITableIterator
     public function next(): void
     {
         if ($this->reverse) {
-            \prev($this->tables);
+            prev($this->tables);
         } else {
-            \next($this->tables);
+            next($this->tables);
         }
     }
 
@@ -103,9 +103,9 @@ class DefaultTableIterator implements ITableIterator
     public function rewind(): void
     {
         if ($this->reverse) {
-            \end($this->tables);
+            end($this->tables);
         } else {
-            \reset($this->tables);
+            reset($this->tables);
         }
     }
 

@@ -59,7 +59,7 @@ class MysqlXmlDataSet extends AbstractXmlDataSet
 
                     if (!isset($fields[0])) {
                         throw new RuntimeException(
-                            \sprintf(
+                            sprintf(
                                 '%s column doesn\'t exist in current row for table %s',
                                 $columnName,
                                 $tableName
@@ -71,7 +71,7 @@ class MysqlXmlDataSet extends AbstractXmlDataSet
                     $attr   = $column->attributes('http://www.w3.org/2001/XMLSchema-instance');
 
                     if (isset($attr['type']) && (string) $attr['type'] === 'xs:hexBinary') {
-                        $columnValue = \pack('H*', (string) $column);
+                        $columnValue = pack('H*', (string) $column);
                     } else {
                         $null        = isset($column['nil']) || isset($attr[0]);
                         $columnValue = $null ? null : (string) $column;

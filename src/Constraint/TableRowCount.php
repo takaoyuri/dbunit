@@ -45,7 +45,7 @@ class TableRowCount extends Constraint
      */
     public function toString(): string
     {
-        return \sprintf('is equal to expected row count %d', $this->value);
+        return sprintf('is equal to expected row count %d', $this->value);
     }
 
     /**

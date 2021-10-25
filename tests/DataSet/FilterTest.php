@@ -33,7 +33,7 @@ class FilterTest extends TestCase
         $filteredDataSet = new Filter($dataSet, [
             'table1' => ['table1_id'],
             'table2' => '*',
-            'table3' => 'table3_id'
+            'table3' => 'table3_id',
         ]);
 
         self::assertThat($filteredDataSet, $constraint);

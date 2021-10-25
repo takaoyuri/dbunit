@@ -26,8 +26,8 @@ class Update extends RowBased
     {
         $keys = $databaseTableMetaData->getPrimaryKeys();
         $columns = $table->getTableMetaData()->getColumns();
-        $whereStatement = 'WHERE ' . \implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
-        $setStatement = 'SET ' . \implode(', ', $this->buildPreparedColumnArray($columns, $connection));
+        $whereStatement = 'WHERE ' . implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
+        $setStatement = 'SET ' . implode(', ', $this->buildPreparedColumnArray($columns, $connection));
 
         return "
             UPDATE {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}

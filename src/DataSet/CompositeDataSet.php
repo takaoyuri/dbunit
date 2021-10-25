@@ -70,6 +70,7 @@ class CompositeDataSet extends AbstractDataSet
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
+     *
      * @return ITableIterator
      */
     protected function createIterator(bool $reverse = false): ITableIterator

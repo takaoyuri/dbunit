@@ -37,7 +37,7 @@ class AbstractTableTest extends TestCase
 
         $this->table->addRow([
             'id' => 1,
-            'column1' => 'randomValue'
+            'column1' => 'randomValue',
         ]);
     }
 
@@ -56,7 +56,7 @@ class AbstractTableTest extends TestCase
     {
         return [
             [['id' => 1, 'column1' => 'randomValue'], true],
-            [['id' => 1, 'column1' => 'notExistingValue'], false]
+            [['id' => 1, 'column1' => 'notExistingValue'], false],
         ];
     }
 
@@ -133,7 +133,7 @@ class AbstractTableTest extends TestCase
             ->willReturn($otherMetaData);
         $otherTable->expects($this->once())
             ->method('getRowCount')
-            ->willReturn(count($otherColumnValues));
+            ->willReturn(\count($otherColumnValues));
 
         $tableMetaData->expects($this->once())
             ->method('getColumns')
@@ -145,7 +145,7 @@ class AbstractTableTest extends TestCase
 
         $table
             ->method('getRowCount')
-            ->willReturn(count($tableColumnValues));
+            ->willReturn(\count($tableColumnValues));
 
         $tableMap = [];
         $otherMap = [];

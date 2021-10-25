@@ -91,6 +91,7 @@ class QueryTable extends AbstractTable
      *
      * @param int $row
      * @param string $column
+     *
      * @return mixed
      */
     public function getValue(int $row, string $column)
@@ -118,6 +119,7 @@ class QueryTable extends AbstractTable
      * Asserts that the given table matches this table.
      *
      * @param ITable $other
+     *
      * @return bool
      */
     public function matches(ITable $other): bool
@@ -145,7 +147,7 @@ class QueryTable extends AbstractTable
 
             if (isset($this->data[0])) {
                 // get column names from data
-                $columns = \array_keys($this->data[0]);
+                $columns = array_keys($this->data[0]);
             } else {
                 $columns = $this->databaseConnection->getMetaData()->getTableColumns($this->tableName);
             }

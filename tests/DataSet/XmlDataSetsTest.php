@@ -43,21 +43,21 @@ class XmlDataSetsTest extends TestCase
             'column1' => 'tgfahgasdf',
             'column2' => 200,
             'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;'
+            'column4' => 'yghkf;a  hahfg8ja h;',
         ]);
         $table1->addRow([
             'table1_id' => 2,
             'column1' => 'hk;afg',
             'column2' => 654,
             'column3' => 46.54,
-            'column4' => '24rwehhads'
+            'column4' => '24rwehhads',
         ]);
         $table1->addRow([
             'table1_id' => 3,
             'column1' => 'ha;gyt',
             'column2' => 462,
             'column3' => 1654.4,
-            'column4' => 'asfgklg'
+            'column4' => 'asfgklg',
         ]);
 
         $table2->addRow([
@@ -65,21 +65,21 @@ class XmlDataSetsTest extends TestCase
             'column5' => 'fhah',
             'column6' => 456,
             'column7' => 46.5,
-            'column8' => 'fsdbghfdas'
+            'column8' => 'fsdbghfdas',
         ]);
         $table2->addRow([
             'table2_id' => 2,
             'column5' => 'asdhfoih',
             'column6' => 654,
             'column7' => null,
-            'column8' => '43asdfhgj'
+            'column8' => '43asdfhgj',
         ]);
         $table2->addRow([
             'table2_id' => 3,
             'column5' => 'ajsdlkfguitah',
             'column6' => 654,
             'column7' => null,
-            'column8' => null
+            'column8' => null,
         ]);
 
         $this->expectedDataSet = new DefaultDataSet([$table1, $table2]);

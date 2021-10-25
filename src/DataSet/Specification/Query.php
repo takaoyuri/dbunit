@@ -65,11 +65,11 @@ class Query implements Specification, DatabaseListConsumer
      */
     public function getDataSet($dataSetSpec)
     {
-        [$dbLabel, $schema, $table, $sql]     = \explode(':', $dataSetSpec, 4);
+        [$dbLabel, $schema, $table, $sql]     = explode(':', $dataSetSpec, 4);
         $databaseInfo                         = $this->databases[$dbLabel];
 
         $pdoRflc      = new ReflectionClass('PDO');
-        $pdo          = $pdoRflc->newInstanceArgs(\explode('|', $databaseInfo));
+        $pdo          = $pdoRflc->newInstanceArgs(explode('|', $databaseInfo));
         $dbConnection = new DefaultConnection($pdo, $schema);
         $table        = $dbConnection->createQueryTable($table, $sql);
 

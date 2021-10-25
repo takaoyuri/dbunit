@@ -97,6 +97,7 @@ class YamlDataSet extends AbstractDataSet
      * @params all the rows in a table.
      *
      * @param array $rows
+     *
      * @return array
      */
     private function getColumns(array $rows): array

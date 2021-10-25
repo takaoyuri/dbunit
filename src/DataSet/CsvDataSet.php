@@ -67,15 +67,15 @@ class CsvDataSet extends AbstractDataSet
      */
     public function addTable($tableName, $csvFile): void
     {
-        if (!\is_file($csvFile)) {
+        if (!is_file($csvFile)) {
             throw new InvalidArgumentException("Could not find csv file: {$csvFile}");
         }
 
-        if (!\is_readable($csvFile)) {
+        if (!is_readable($csvFile)) {
             throw new InvalidArgumentException("Could not read csv file: {$csvFile}");
         }
 
-        $fh = \fopen($csvFile, 'rb');
+        $fh = fopen($csvFile, 'rb');
         $columns = $this->getCsvRow($fh);
         $columnsCount = \count($columns);
 
@@ -92,7 +92,7 @@ class CsvDataSet extends AbstractDataSet
             if ($columnsCount !== \count($row)) {
                 throw new InvalidArgumentException("Row no. {$rowNumber} in csv file {$csvFile} should have an equal number of elements as table {$tableName}");
             }
-            $table->addRow(\array_combine($columns, $row));
+            $table->addRow(array_combine($columns, $row));
             $rowNumber++;
         }
 
@@ -122,9 +122,9 @@ class CsvDataSet extends AbstractDataSet
     protected function getCsvRow($fh)
     {
         if (PHP_VERSION_ID > 50300) {
-            return \fgetcsv($fh, null, $this->delimiter, $this->enclosure, $this->escape);
+            return fgetcsv($fh, null, $this->delimiter, $this->enclosure, $this->escape);
         }
 
-        return \fgetcsv($fh, null, $this->delimiter, $this->enclosure);
+        return fgetcsv($fh, null, $this->delimiter, $this->enclosure);
     }
 }

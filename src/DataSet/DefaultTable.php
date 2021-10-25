@@ -36,8 +36,8 @@ class DefaultTable extends AbstractTable
      */
     public function addRow($values = []): void
     {
-        $this->data[] = \array_replace(
-            \array_fill_keys($this->getTableMetaData()->getColumns(), null),
+        $this->data[] = array_replace(
+            array_fill_keys($this->getTableMetaData()->getColumns(), null),
             $values
         );
     }

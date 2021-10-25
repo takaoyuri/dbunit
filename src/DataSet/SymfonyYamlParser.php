@@ -20,6 +20,6 @@ class SymfonyYamlParser implements IYamlParser
 {
     public function parseYaml(string $yamlFile): array
     {
-        return Symfony\Component\Yaml\Yaml::parse(\file_get_contents($yamlFile));
+        return Symfony\Component\Yaml\Yaml::parse(file_get_contents($yamlFile));
     }
 }
