@@ -203,7 +203,7 @@ class ReplacementTable implements ITable
 
     protected function getReplacedValue($value)
     {
-        if (is_scalar($value) && \array_key_exists((string) $value, $this->fullReplacements)) {
+        if (\is_scalar($value) && \array_key_exists((string) $value, $this->fullReplacements)) {
             return $this->fullReplacements[$value];
         }
 
