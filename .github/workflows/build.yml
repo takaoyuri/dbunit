@@ -74,7 +74,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           coverage: pcov
       - name: Get composer cache directory
         id: composer-cache
@@ -83,8 +83,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: 80-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: 80-composer-
+          key: 81-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: 81-composer-
       - name: Install dependencies
         run: composer install --prefer-dist
       - name: Run PHPUnit with coverage
