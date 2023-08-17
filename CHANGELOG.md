@@ -2,6 +2,13 @@
 
 All notable changes to DbUnit are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [5.3.0] - 2023-08-17
+
+* Drop support for PHP 7.2 / 7.3
+* Add PHP 8.2 support
+* Improve CI - run tests with Mysql 5.7/8.0
+* Add PHPUnit 10 support
+
 ## [5.2.1] - 2021-12-04
 
 ### Updated
