@@ -57,6 +57,19 @@ abstract class AbstractMetadata implements Metadata
     protected $truncateCommand = 'TRUNCATE';
 
     /**
+     * Creates a new database meta data object using the given pdo connection
+     * and schema name.
+     *
+     * @param PDO    $pdo
+     * @param string $schema
+     */
+    final public function __construct(PDO $pdo, $schema = '')
+    {
+        $this->pdo = $pdo;
+        $this->schema = $schema;
+    }
+
+    /**
      * Creates a meta data object based on the driver of given $pdo object and
      * $schema name.
      *
@@ -111,19 +124,6 @@ abstract class AbstractMetadata implements Metadata
     }
 
     /**
-     * Creates a new database meta data object using the given pdo connection
-     * and schema name.
-     *
-     * @param PDO    $pdo
-     * @param string $schema
-     */
-    final public function __construct(PDO $pdo, $schema = '')
-    {
-        $this->pdo = $pdo;
-        $this->schema = $schema;
-    }
-
-    /**
      * Returns the schema for the connection.
      *
      * @return string
@@ -165,7 +165,9 @@ abstract class AbstractMetadata implements Metadata
      */
     public function splitTableName($fullTableName)
     {
-        if (($dot = strpos($fullTableName, '.')) !== false) {
+        $dot = strpos($fullTableName, '.');
+
+        if ($dot !== false) {
             return [
                 'schema' => substr($fullTableName, 0, $dot),
                 'table' => substr($fullTableName, $dot + 1),
