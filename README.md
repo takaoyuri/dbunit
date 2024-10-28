@@ -1,8 +1,8 @@
-# DbUnit fork supporting PHPUnit 8/9/10
+# DbUnit fork supporting PHPUnit 10/11
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/misantron/dbunit/build.yml?style=flat-square)](https://github.com/misantron/dbunit/actions)
-[![Code Coverage](https://img.shields.io/codecov/c/gh/misantron/dbunit.svg?style=flat-square)](https://app.codecov.io/gh/misantron/dbunit)
-[![Version](https://img.shields.io/packagist/v/misantron/dbunit.svg?style=flat-square)](https://packagist.org/packages/misantron/dbunit)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/takaoyuri/dbunit/build.yml?style=flat-square)](https://github.com/takaoyuri/dbunit/actions)
+[![Code Coverage](https://img.shields.io/codecov/c/gh/takaoyuri/dbunit.svg?style=flat-square)](https://app.codecov.io/gh/takaoyuri/dbunit)
+[![Version](https://img.shields.io/packagist/v/takaoyuri/dbunit.svg?style=flat-square)](https://packagist.org/packages/takaoyuri/dbunit)
 
 [PHPUnit](https://phpunit.de/) extension for database interaction testing.
 
