@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\DataSet;
+namespace PHPUnit\DbUnit\Tests\Unit\DataSet;
 
 use PDO;
 use PHPUnit\DbUnit\Database\DefaultConnection;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\QueryTable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class QueryTableTest extends TestCase
@@ -98,12 +99,11 @@ class QueryTableTest extends TestCase
     }
 
     /**
-     * @dataProvider providerTestGetValue
-     *
      * @param mixed $row
      * @param mixed $column
      * @param mixed $value
      */
+    #[DataProvider('providerTestGetValue')]
     public function testGetValue($row, $column, $value): void
     {
         $this->assertEquals($value, $this->table->getValue($row, $column));

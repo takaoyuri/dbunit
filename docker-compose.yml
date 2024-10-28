@@ -8,3 +8,10 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
       - '3406:3306'
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.php8.3
+    volumes:
+      - .:/usr/src/myapp

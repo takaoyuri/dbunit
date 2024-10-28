@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\Constraint;
+namespace PHPUnit\DbUnit\Tests\Unit\Constraint;
 
 use PHPUnit\DbUnit\Constraint\TableRowCount;
 use PHPUnit\Framework\ExpectationFailedException;

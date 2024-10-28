@@ -1,0 +1,9 @@
+FROM php:8.3-cli
+
+RUN apt-get update \
+  && apt-get -y install --no-install-recommends \
+    git unzip
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /usr/src/myapp

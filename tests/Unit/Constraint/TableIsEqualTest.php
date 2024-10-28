@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\Constraint;
+namespace PHPUnit\DbUnit\Tests\Unit\Constraint;
 
 use PHPUnit\DbUnit\Constraint\TableIsEqual;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
