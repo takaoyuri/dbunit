@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-pdo": "*",
         "phpunit/phpunit": "^10.2 || ^11.4",
         "symfony/polyfill-php80": "^1.27",
