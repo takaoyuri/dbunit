@@ -1,6 +1,6 @@
 {
-    "name": "misantron/dbunit",
-    "description": "DbUnit fork supporting PHPUnit 9/10",
+    "name": "takaoyuri/dbunit",
+    "description": "DbUnit fork supporting PHPUnit 10/11",
     "type": "library",
     "license": "MIT",
     "keywords": [
