@@ -16,6 +16,7 @@ use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 use PHPUnit\DbUnit\DataSet\QueryTable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -44,9 +45,8 @@ class AbstractTableTest extends TestCase
     /**
      * @param array $row
      * @param bool $exists
-     *
-     * @dataProvider providerTableContainsRow
      */
+    #[DataProvider('providerTableContainsRow')]
     public function testTableContainsRow($row, $exists): void
     {
         $result = $this->table->assertContainsRow($row);
@@ -121,9 +121,8 @@ class AbstractTableTest extends TestCase
      * @param array $tableColumnValues
      * @param array $otherColumnValues
      * @param bool $matches
-     *
-     * @dataProvider providerMatchesWithColumnValueComparisons
      */
+    #[DataProvider('providerMatchesWithColumnValueComparisons')]
     public function testMatchesWithColumnValueComparisons($tableColumnValues, $otherColumnValues, $matches): void
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);

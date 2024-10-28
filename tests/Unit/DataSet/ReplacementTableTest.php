@@ -17,6 +17,7 @@ use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
 use PHPUnit\DbUnit\DataSet\ReplacementTable;
 use PHPUnit\DbUnit\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ReplacementTableTest extends \PHPUnit\Framework\TestCase
@@ -301,9 +302,8 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
      * @param array $tableColumnValues
      * @param array $otherColumnValues
      * @param bool  $matches
-     *
-     * @dataProvider providerMatchesWithColumnValueComparisons
      */
+    #[DataProvider('providerMatchesWithColumnValueComparisons')]
     public function testMatchesWithColumnValueComparisons($tableColumnValues, $otherColumnValues, $matches): void
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
