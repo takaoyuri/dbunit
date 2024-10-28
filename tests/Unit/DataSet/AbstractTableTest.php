@@ -9,245 +9,70 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\DataSet;
+namespace PHPUnit\DbUnit\Tests\Unit\DataSet;
 
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
 use PHPUnit\DbUnit\DataSet\ITable;
 use PHPUnit\DbUnit\DataSet\ITableMetadata;
-use PHPUnit\DbUnit\DataSet\ReplacementTable;
-use PHPUnit\DbUnit\TestCase;
+use PHPUnit\DbUnit\DataSet\QueryTable;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ReplacementTableTest extends \PHPUnit\Framework\TestCase
+class AbstractTableTest extends TestCase
 {
     /**
-     * @var DefaultTable
+     * @var QueryTable
      */
-    protected $startingTable;
+    protected $table;
 
     protected function setUp(): void
     {
         $tableMetaData = new DefaultTableMetadata(
-            'table1',
-            ['table1_id', 'column1', 'column2', 'column3', 'column4']
+            'table',
+            ['id', 'column1']
         );
 
-        $table = new DefaultTable($tableMetaData);
+        $this->table = new DefaultTable($tableMetaData);
 
-        $table->addRow([
-            'table1_id' => 1,
-            'column1' => 'My name is %%%name%%%',
-            'column2' => 200,
-            'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;',
+        $this->table->addRow([
+            'id' => 1,
+            'column1' => 'randomValue',
         ]);
-        $table->addRow([
-            'table1_id' => 2,
-            'column1' => 'hk;afg',
-            'column2' => 654,
-            'column3' => 46.54,
-            'column4' => '24rwehhads',
-        ]);
-        $table->addRow([
-            'table1_id' => 3,
-            'column1' => 'ha;gyt',
-            'column2' => 462,
-            'column3' => '[NULL] not really',
-            'column4' => '[NULL]',
-        ]);
-
-        $this->startingTable = $table;
     }
 
-    public function testNoReplacement(): void
+    /**
+     * @param array $row
+     * @param bool $exists
+     *
+     * @dataProvider providerTableContainsRow
+     */
+    public function testTableContainsRow($row, $exists): void
     {
-        TestCase::assertTablesEqual(
-            $this->startingTable,
-            new ReplacementTable($this->startingTable)
-        );
+        $result = $this->table->assertContainsRow($row);
+        $this->assertEquals($exists, $result);
     }
 
-    public function testFullReplacement(): void
+    public static function providerTableContainsRow(): array
     {
-        $tableMetaData = new DefaultTableMetadata(
-            'table1',
-            ['table1_id', 'column1', 'column2', 'column3', 'column4']
-        );
-
-        $table = new DefaultTable($tableMetaData);
-
-        $table->addRow([
-            'table1_id' => 1,
-            'column1' => 'My name is %%%name%%%',
-            'column2' => 200,
-            'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;',
-        ]);
-        $table->addRow([
-            'table1_id' => 2,
-            'column1' => 'hk;afg',
-            'column2' => 654,
-            'column3' => 46.54,
-            'column4' => '24rwehhads',
-        ]);
-        $table->addRow([
-            'table1_id' => 3,
-            'column1' => 'ha;gyt',
-            'column2' => 462,
-            'column3' => '[NULL] not really',
-            'column4' => null,
-        ]);
-
-        $actual = new ReplacementTable($this->startingTable);
-        $actual->addFullReplacement('[NULL]', null);
-
-        TestCase::assertTablesEqual($table, $actual);
-    }
-
-    public function testSubStrReplacement(): void
-    {
-        $tableMetaData = new DefaultTableMetadata(
-            'table1',
-            ['table1_id', 'column1', 'column2', 'column3', 'column4']
-        );
-
-        $table = new DefaultTable($tableMetaData);
-
-        $table->addRow([
-            'table1_id' => 1,
-            'column1' => 'My name is Mike Lively',
-            'column2' => 200,
-            'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;',
-        ]);
-        $table->addRow([
-            'table1_id' => 2,
-            'column1' => 'hk;afg',
-            'column2' => 654,
-            'column3' => 46.54,
-            'column4' => '24rwehhads',
-        ]);
-        $table->addRow([
-            'table1_id' => 3,
-            'column1' => 'ha;gyt',
-            'column2' => 462,
-            'column3' => '[NULL] not really',
-            'column4' => '[NULL]',
-        ]);
-
-        $actual = new ReplacementTable($this->startingTable);
-        $actual->addSubStrReplacement('%%%name%%%', 'Mike Lively');
-
-        TestCase::assertTablesEqual($table, $actual);
-    }
-
-    public function testConstructorReplacements(): void
-    {
-        $tableMetaData = new DefaultTableMetadata(
-            'table1',
-            ['table1_id', 'column1', 'column2', 'column3', 'column4']
-        );
-
-        $table = new DefaultTable($tableMetaData);
-
-        $table->addRow([
-            'table1_id' => 1,
-            'column1' => 'My name is Mike Lively',
-            'column2' => 200,
-            'column3' => 34.64,
-            'column4' => 'yghkf;a  hahfg8ja h;',
-        ]);
-        $table->addRow([
-            'table1_id' => 2,
-            'column1' => 'hk;afg',
-            'column2' => 654,
-            'column3' => 46.54,
-            'column4' => '24rwehhads',
-        ]);
-        $table->addRow([
-            'table1_id' => 3,
-            'column1' => 'ha;gyt',
-            'column2' => 462,
-            'column3' => '[NULL] not really',
-            'column4' => null,
-        ]);
-
-        $actual = new ReplacementTable(
-            $this->startingTable,
-            [
-                '[NULL]' => null,
-            ],
-            [
-                '%%%name%%%' => 'Mike Lively',
-            ]
-        );
-
-        TestCase::assertTablesEqual($table, $actual);
-    }
-
-    public function testGetRow(): void
-    {
-        $actual = new ReplacementTable(
-            $this->startingTable,
-            [
-                '[NULL]' => null,
-            ],
-            [
-                '%%%name%%%' => 'Mike Lively',
-            ]
-        );
-
-        $this->assertEquals(
-            [
-                'table1_id' => 1,
-                'column1' => 'My name is Mike Lively',
-                'column2' => 200,
-                'column3' => 34.64,
-                'column4' => 'yghkf;a  hahfg8ja h;',
-            ],
-            $actual->getRow(0)
-        );
-
-        $this->assertEquals(
-            [
-                'table1_id' => 3,
-                'column1' => 'ha;gyt',
-                'column2' => 462,
-                'column3' => '[NULL] not really',
-                'column4' => null,
-            ],
-            $actual->getRow(2)
-        );
-    }
-
-    public function testGetValue(): void
-    {
-        $actual = new ReplacementTable(
-            $this->startingTable,
-            [
-                '[NULL]' => null,
-            ],
-            [
-                '%%%name%%%' => 'Mike Lively',
-            ]
-        );
-
-        $this->assertNull($actual->getValue(2, 'column4'));
-        $this->assertEquals('My name is Mike Lively', $actual->getValue(0, 'column1'));
+        return [
+            [[
+                'id' => 1,
+                'column1' => 'randomValue',
+            ], true],
+            [[
+                'id' => 1,
+                'column1' => 'notExistingValue',
+            ], false],
+        ];
     }
 
     public function testMatchesWithNonMatchingMetaData(): void
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
         $otherMetaData = $this->createMock(ITableMetadata::class);
-        $table = $this->createMock(ITable::class);
+
         $otherTable = $this->createMock(ITable::class);
-
-        $table->expects($this->once())
-            ->method('getTableMetaData')
-            ->willReturn($tableMetaData);
-
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
             ->willReturn($otherMetaData);
@@ -257,26 +82,21 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             ->with($otherMetaData)
             ->willReturn(false);
 
-        $replacementTable = new ReplacementTable($table);
-        $this->assertFalse($replacementTable->matches($otherTable));
+        $table = new DefaultTable($tableMetaData);
+        $this->assertFalse($table->matches($otherTable));
     }
 
     public function testMatchesWithNonMatchingRowCount(): void
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
         $otherMetaData = $this->createMock(ITableMetadata::class);
-        $table = $this->createMock(ITable::class);
         $otherTable = $this->createMock(ITable::class);
 
-        /** @var MockObject|ReplacementTable $replacementTable */
-        $replacementTable = $this->getMockBuilder(ReplacementTable::class)
-            ->setConstructorArgs([$table])
+        /** @var MockObject|DefaultTable $table */
+        $table = $this->getMockBuilder(DefaultTable::class)
+            ->setConstructorArgs([$tableMetaData])
             ->onlyMethods(['getRowCount'])
             ->getMock();
-
-        $table->expects($this->once())
-            ->method('getTableMetaData')
-            ->willReturn($tableMetaData);
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
@@ -290,17 +110,17 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             ->with($otherMetaData)
             ->willReturn(true);
 
-        $replacementTable->expects($this->once())
+        $table->expects($this->once())
             ->method('getRowCount')
             ->willReturn(1);
 
-        $this->assertFalse($replacementTable->matches($otherTable));
+        $this->assertFalse($table->matches($otherTable));
     }
 
     /**
      * @param array $tableColumnValues
      * @param array $otherColumnValues
-     * @param bool  $matches
+     * @param bool $matches
      *
      * @dataProvider providerMatchesWithColumnValueComparisons
      */
@@ -308,12 +128,13 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
     {
         $tableMetaData = $this->createMock(ITableMetadata::class);
         $otherMetaData = $this->createMock(ITableMetadata::class);
-        $table = $this->createMock(ITable::class);
         $otherTable = $this->createMock(ITable::class);
 
-        $table->expects($this->once())
-            ->method('getTableMetaData')
-            ->willReturn($tableMetaData);
+        /** @var MockObject|DefaultTable $table */
+        $table = $this->getMockBuilder(DefaultTable::class)
+            ->setConstructorArgs([$tableMetaData])
+            ->onlyMethods(['getRowCount', 'getValue'])
+            ->getMock();
 
         $otherTable->expects($this->once())
             ->method('getTableMetaData')
@@ -330,13 +151,7 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
             ->with($otherMetaData)
             ->willReturn(true);
 
-        /** @var MockObject|ReplacementTable $replacementTable */
-        $replacementTable = $this->getMockBuilder(ReplacementTable::class)
-            ->setConstructorArgs([$table])
-            ->onlyMethods(['getRowCount', 'getValue'])
-            ->getMock();
-
-        $replacementTable
+        $table
             ->method('getRowCount')
             ->willReturn(\count($tableColumnValues));
 
@@ -349,14 +164,14 @@ class ReplacementTableTest extends \PHPUnit\Framework\TestCase
                 $otherMap[] = [$rowIndex, $columnName, $otherColumnValues[$rowIndex][$columnName]];
             }
         }
-        $replacementTable
+        $table
             ->method('getValue')
             ->willReturnMap($tableMap);
         $otherTable
             ->method('getValue')
             ->willReturnMap($otherMap);
 
-        $this->assertSame($matches, $replacementTable->matches($otherTable));
+        $this->assertSame($matches, $table->matches($otherTable));
     }
 
     public static function providerMatchesWithColumnValueComparisons(): array

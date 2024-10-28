@@ -9,19 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\DataSet;
+namespace PHPUnit\DbUnit\Tests\Unit\DataSet;
 
-use PHPUnit\DbUnit\DataSet\CsvDataSet;
+use PHPUnit\DbUnit\Constraint\DataSetIsEqual;
 use PHPUnit\DbUnit\DataSet\DefaultDataSet;
 use PHPUnit\DbUnit\DataSet\DefaultTable;
 use PHPUnit\DbUnit\DataSet\DefaultTableMetadata;
-use PHPUnit\DbUnit\TestCase;
+use PHPUnit\DbUnit\DataSet\FlatXmlDataSet;
+use PHPUnit\DbUnit\DataSet\MysqlXmlDataSet;
+use PHPUnit\DbUnit\DataSet\XmlDataSet;
+use PHPUnit\Framework\TestCase;
 
-class CsvDataSetTest extends \PHPUnit\Framework\TestCase
+class XmlDataSetsTest extends TestCase
 {
     protected $expectedDataSet;
 
-    public function testCSVDataSet(): void
+    protected function setUp(): void
     {
         $table1MetaData = new DefaultTableMetadata(
             'table1',
@@ -62,30 +65,47 @@ class CsvDataSetTest extends \PHPUnit\Framework\TestCase
             'column5' => 'fhah',
             'column6' => 456,
             'column7' => 46.5,
-            'column8' => 'fsdb, ghfdas',
+            'column8' => 'fsdbghfdas',
         ]);
         $table2->addRow([
             'table2_id' => 2,
             'column5' => 'asdhfoih',
             'column6' => 654,
-            'column7' => 'blah',
-            'column8' => '43asd "fhgj" sfadh',
+            'column7' => null,
+            'column8' => '43asdfhgj',
         ]);
         $table2->addRow([
             'table2_id' => 3,
             'column5' => 'ajsdlkfguitah',
             'column6' => 654,
-            'column7' => 'blah',
-            'column8' => 'thesethasdl
-asdflkjsadf asdfsadfhl "adsf, halsdf" sadfhlasdf',
+            'column7' => null,
+            'column8' => null,
         ]);
 
-        $expectedDataSet = new DefaultDataSet([$table1, $table2]);
+        $this->expectedDataSet = new DefaultDataSet([$table1, $table2]);
+    }
 
-        $csvDataSet = new CsvDataSet();
-        $csvDataSet->addTable('table1', TEST_FILES_PATH . 'CsvDataSets/table1.csv');
-        $csvDataSet->addTable('table2', TEST_FILES_PATH . 'CsvDataSets/table2.csv');
+    public function testFlatXmlDataSet(): void
+    {
+        $constraint = new DataSetIsEqual($this->expectedDataSet);
+        $xmlFlatDataSet = new FlatXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/FlatXmlDataSet.xml');
 
-        TestCase::assertDataSetsEqual($expectedDataSet, $csvDataSet);
+        self::assertThat($xmlFlatDataSet, $constraint);
+    }
+
+    public function testXmlDataSet(): void
+    {
+        $constraint = new DataSetIsEqual($this->expectedDataSet);
+        $xmlDataSet = new XmlDataSet(TEST_FILES_PATH . 'XmlDataSets/XmlDataSet.xml');
+
+        self::assertThat($xmlDataSet, $constraint);
+    }
+
+    public function testMysqlXmlDataSet(): void
+    {
+        $constraint = new DataSetIsEqual($this->expectedDataSet);
+        $mysqlXmlDataSet = new MysqlXmlDataSet(TEST_FILES_PATH . 'XmlDataSets/MysqlXmlDataSet.xml');
+
+        self::assertThat($mysqlXmlDataSet, $constraint);
     }
 }

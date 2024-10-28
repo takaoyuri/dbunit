@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\DataSet;
+namespace PHPUnit\DbUnit\Tests\Unit\DataSet;
 
 use PDO;
 use PHPUnit\DbUnit\Database\DefaultConnection;

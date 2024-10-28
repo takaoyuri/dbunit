@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\DbUnit\Tests\Operation;
+namespace PHPUnit\DbUnit\Tests\Unit\Operation;
 
 use DatabaseTestUtility;
 use PHPUnit\DbUnit\Database\Connection;
