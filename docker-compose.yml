@@ -7,11 +7,14 @@ services:
       MYSQL_DATABASE: dbunit
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
-      - '3406:3306'
+      - '3306:3306'
 
   php:
     build:
       context: .
       dockerfile: Dockerfile.php8.3
+    environment:
+      - MYSQL_DB_HOST=mysql
     volumes:
       - .:/usr/src/myapp
+
