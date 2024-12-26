@@ -34,6 +34,7 @@ jobs:
         php-versions:
           - '8.3'
           - '8.4'
+
     services:
       mysql:
         image: "mysql:${{ matrix.db-version }}"
@@ -43,7 +44,7 @@ jobs:
         options: >-
           --health-cmd="mysqladmin ping --silent"
         ports:
-          - '3406:3306'
+          - '3306:3306'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
