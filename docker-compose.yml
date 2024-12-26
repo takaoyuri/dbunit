@@ -18,3 +18,12 @@ services:
     volumes:
       - .:/usr/src/myapp
 
+
+  php84:
+    build:
+      context: .
+      dockerfile: Dockerfile.php8.4
+    environment:
+      - MYSQL_DB_HOST=mysql
+    volumes:
+      - .:/usr/src/myapp
