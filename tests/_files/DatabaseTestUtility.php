@@ -167,7 +167,7 @@ class DatabaseTestUtility
     {
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $connection->exec('DROP TABLE table1');
+        $connection->exec('DROP TABLE if exists table1');
         $connection->exec(
             'CREATE TABLE table1 (
             table1_id SERIAL PRIMARY KEY,
@@ -179,7 +179,7 @@ class DatabaseTestUtility
           '
         );
 
-        $connection->exec('DROP TABLE table2');
+        $connection->exec('DROP TABLE if exists table2');
         $connection->exec(
             'CREATE TABLE table2 (
             table2_id SERIAL PRIMARY KEY,
@@ -191,7 +191,7 @@ class DatabaseTestUtility
           )'
         );
 
-        $connection->exec('DROP TABLE table3');
+        $connection->exec('DROP TABLE if exists table3');
         $connection->exec(
             'CREATE TABLE table3 (
             table3_id SERIAL PRIMARY KEY,
