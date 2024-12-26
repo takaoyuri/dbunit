@@ -38,7 +38,7 @@ class OperationsPsqlTest extends TestCase
 
     public function getConnection()
     {
-        return new DefaultConnection(DatabaseTestUtility::getPostgreSQLDB(), 'postgres');
+        return new DefaultConnection(DatabaseTestUtility::getPostgreSQLDB());
     }
 
     public function getDataSet()
