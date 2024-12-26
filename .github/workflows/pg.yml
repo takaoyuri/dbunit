@@ -1,0 +1,54 @@
+name: pg
+
+on: [push]
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system:
+          - ubuntu-latest
+        db-version:
+          - '13'
+        php-versions:
+          - '8.3'
+          - '8.4'
+
+    services:
+      postgres:
+        image: "postgres:${{ matrix.db-version }}"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: pdo_pgsql, libxml, dom
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: locked
+          composer-options: --no-ansi --no-interaction --no-progress
+
+      - name: Override config
+        run: cp ci/phpunit/phpunit.96.xml phpunit.xml.dist
+        if: ${{ matrix.php-versions == '7.4' || matrix.php-versions == '8.0' }}
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --colors=always --config phpunit.xml.dist
+        env:
+          POSTGRES_DB_HOST: 127.0.0.1

@@ -15,6 +15,8 @@ class DatabaseTestUtility
 
     protected static $mySQLConnection;
 
+    protected static $postgreSQLConnection;
+
     public static function getSQLiteMemoryDB()
     {
         if (self::$connection === null) {
@@ -48,6 +50,29 @@ class DatabaseTestUtility
         }
 
         return self::$mySQLConnection;
+    }
+
+    /**
+     * Creates connection to test PostgreSQL database
+     *
+     * PostgreSQL server must be installed locally, with appropriate access
+     * credentials set in environment variables
+     *
+     * @return PDO
+     */
+    public static function getPostgreSQLDB()
+    {
+        if (self::$postgreSQLConnection === null) {
+            self::$postgreSQLConnection = new PDO(
+                self::buildPostgreSQLDSN(),
+                getenv('POSTGRES_DB_USER'),
+                getenv('POSTGRES_DB_PASSWORD')
+            );
+
+            self::setUpPostgreSQLDatabase(self::$postgreSQLConnection);
+        }
+
+        return self::$postgreSQLConnection;
     }
 
     protected static function setUpDatabase(PDO $connection): void
@@ -138,6 +163,47 @@ class DatabaseTestUtility
         );
     }
 
+    protected static function setUpPostgreSQLDatabase(PDO $connection): void
+    {
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $connection->exec('DROP TABLE if exists table1');
+        $connection->exec(
+            'CREATE TABLE table1 (
+            table1_id SERIAL PRIMARY KEY,
+            column1 VARCHAR(20),
+            column2 INT,
+            column3 DECIMAL(6,2),
+            column4 TEXT
+          )
+          '
+        );
+
+        $connection->exec('DROP TABLE if exists table2');
+        $connection->exec(
+            'CREATE TABLE table2 (
+            table2_id SERIAL PRIMARY KEY,
+            table1_id INTEGER,
+            column5 VARCHAR(20),
+            column6 INT,
+            column7 DECIMAL(6,2),
+            column8 TEXT
+          )'
+        );
+
+        $connection->exec('DROP TABLE if exists table3');
+        $connection->exec(
+            'CREATE TABLE table3 (
+            table3_id SERIAL PRIMARY KEY,
+            table2_id INTEGER,
+            column9 VARCHAR(20),
+            column10 INT,
+            column11 DECIMAL(6,2),
+            column12 TEXT
+          )'
+        );
+    }
+
     private static function buildMysqlDSN(): string
     {
         return sprintf(
@@ -145,6 +211,16 @@ class DatabaseTestUtility
             getenv('MYSQL_DB_HOST'),
             getenv('MYSQL_DB_NAME'),
             getenv('MYSQL_DB_PORT')
+        );
+    }
+
+    private static function buildPostgreSQLDSN(): string
+    {
+        return sprintf(
+            'pgsql:host=%s;dbname=%s;port=%s',
+            getenv('POSTGRES_DB_HOST'),
+            getenv('POSTGRES_DB_NAME'),
+            getenv('POSTGRES_DB_PORT')
         );
     }
 }

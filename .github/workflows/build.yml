@@ -34,6 +34,7 @@ jobs:
         php-versions:
           - '8.3'
           - '8.4'
+
     services:
       mysql:
         image: "mysql:${{ matrix.db-version }}"
@@ -43,7 +44,7 @@ jobs:
         options: >-
           --health-cmd="mysqladmin ping --silent"
         ports:
-          - '3406:3306'
+          - '3306:3306'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,6 +64,9 @@ jobs:
         if: ${{ matrix.php-versions == '7.4' || matrix.php-versions == '8.0' }}
       - name: Run PHPUnit
         run: vendor/bin/phpunit --colors=always --config phpunit.xml.dist
+        env:
+          MYSQL_DB_HOST: 127.0.0.1
+
   coverage:
     name: Tests coverage
     runs-on: ubuntu-latest
@@ -79,8 +83,12 @@ jobs:
         with:
           dependency-versions: locked
           composer-options: --no-ansi --no-interaction --no-progress
+
       - name: Run PHPUnit with coverage
         run: vendor/bin/phpunit --testsuite=unit --colors=always --coverage-clover=clover.xml
+        env:
+          MYSQL_DB_HOST: 127.0.0.1
+
       - name: Upload coverage
         uses: codecov/codecov-action@v4
         with:

@@ -9,6 +9,10 @@
             <directory>tests/Mysql/</directory>
             <exclude>tests/_files/*</exclude>
         </testsuite>
+        <testsuite name="pgsql">
+            <directory>tests/Pgsql/</directory>
+            <exclude>tests/_files/*</exclude>
+        </testsuite>
         <testsuite name="unit">
             <directory>tests/Unit/</directory>
             <exclude>tests/_files/*</exclude>
@@ -16,11 +20,16 @@
     </testsuites>
 
     <php>
-        <env name="MYSQL_DB_HOST" value="127.0.0.1"/>
-        <env name="MYSQL_DB_PORT" value="3406"/>
+        <!-- <env name="MYSQL_DB_HOST" value="127.0.0.1"/> -->
+        <env name="MYSQL_DB_PORT" value="3306"/>
         <env name="MYSQL_DB_NAME" value="dbunit"/>
         <env name="MYSQL_DB_USER" value="root"/>
         <env name="MYSQL_DB_PASSWORD" value=""/>
+        
+        <!-- <env name="POSTGRES_DB_HOST" value="127.0.0.1"/> -->
+        <env name="POSTGRES_DB_PORT" value="5432"/>
+        <env name="POSTGRES_DB_NAME" value="postgres"/>
+        <env name="POSTGRES_DB_USER" value="postgres"/>
     </php>
 
     <source>
