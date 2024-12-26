@@ -183,6 +183,7 @@ class DatabaseTestUtility
         $connection->exec(
             'CREATE TABLE table2 (
             table2_id SERIAL PRIMARY KEY,
+            table1_id INTEGER,
             column5 VARCHAR(20),
             column6 INT,
             column7 DECIMAL(6,2),
@@ -194,6 +195,7 @@ class DatabaseTestUtility
         $connection->exec(
             'CREATE TABLE table3 (
             table3_id SERIAL PRIMARY KEY,
+            table2_id INTEGER,
             column9 VARCHAR(20),
             column10 INT,
             column11 DECIMAL(6,2),
