@@ -2,9 +2,9 @@ FROM php:8.3-cli
 
 RUN apt-get update \
   && apt-get -y install --no-install-recommends \
-    git unzip
+    git unzip libpq-dev
 
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_mysql pgsql pdo_pgsql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

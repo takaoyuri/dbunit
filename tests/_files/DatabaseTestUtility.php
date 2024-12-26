@@ -65,8 +65,8 @@ class DatabaseTestUtility
         if (self::$postgreSQLConnection === null) {
             self::$postgreSQLConnection = new PDO(
                 self::buildPostgreSQLDSN(),
-                getenv('POSTGRESL_DB_USER'),
-                getenv('POSTGRESL_DB_PASSWORD')
+                getenv('POSTGRES_DB_USER'),
+                getenv('POSTGRES_DB_PASSWORD')
             );
 
             self::setUpPostgreSQLDatabase(self::$postgreSQLConnection);
@@ -167,18 +167,21 @@ class DatabaseTestUtility
     {
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        $connection->exec('DROP TABLE table1');
         $connection->exec(
-            'CREATE TABLE IF NOT EXISTS table1 (
+            'CREATE TABLE table1 (
             table1_id SERIAL PRIMARY KEY,
             column1 VARCHAR(20),
             column2 INT,
             column3 DECIMAL(6,2),
             column4 TEXT
-          )'
+          )
+          '
         );
 
+        $connection->exec('DROP TABLE table2');
         $connection->exec(
-            'CREATE TABLE IF NOT EXISTS table2 (
+            'CREATE TABLE table2 (
             table2_id SERIAL PRIMARY KEY,
             column5 VARCHAR(20),
             column6 INT,
@@ -187,8 +190,9 @@ class DatabaseTestUtility
           )'
         );
 
+        $connection->exec('DROP TABLE table3');
         $connection->exec(
-            'CREATE TABLE IF NOT EXISTS table3 (
+            'CREATE TABLE table3 (
             table3_id SERIAL PRIMARY KEY,
             column9 VARCHAR(20),
             column10 INT,
@@ -212,9 +216,9 @@ class DatabaseTestUtility
     {
         return sprintf(
             'pgsql:host=%s;dbname=%s;port=%s',
-            getenv('POSTGRESL_DB_HOST'),
-            getenv('POSTGRESL_DB_NAME'),
-            getenv('POSTGRESL_DB_PORT')
+            getenv('POSTGRES_DB_HOST'),
+            getenv('POSTGRES_DB_NAME'),
+            getenv('POSTGRES_DB_PORT')
         );
     }
 }

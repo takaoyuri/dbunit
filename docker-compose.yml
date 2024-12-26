@@ -8,6 +8,14 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
       - '3306:3306'
+      
+  db:
+    image: postgres:9.2
+    environment:
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --no-locale"
+    command: ["postgres", "-c", "log_statement=all"]
+    ports:
+      - "5432:5432"
 
   php:
     build:
@@ -15,6 +23,7 @@ services:
       dockerfile: Dockerfile.php8.3
     environment:
       - MYSQL_DB_HOST=mysql
+      - POSTGRES_DB_HOST=db
     volumes:
       - .:/usr/src/myapp
 
@@ -25,5 +34,6 @@ services:
       dockerfile: Dockerfile.php8.4
     environment:
       - MYSQL_DB_HOST=mysql
+      - POSTGRES_DB_HOST=db
     volumes:
       - .:/usr/src/myapp
