@@ -63,6 +63,9 @@ jobs:
         if: ${{ matrix.php-versions == '7.4' || matrix.php-versions == '8.0' }}
       - name: Run PHPUnit
         run: vendor/bin/phpunit --colors=always --config phpunit.xml.dist
+        env:
+          MYSQL_DB_HOST: 127.0.0.1
+
   coverage:
     name: Tests coverage
     runs-on: ubuntu-latest
